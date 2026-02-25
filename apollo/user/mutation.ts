@@ -1,13 +1,17 @@
 import { gql } from '@apollo/client';
-import { CreateNotificationInput, Notifications, NotificationsInquiry } from '../../libs/types/notification/notification';
+import {
+	CreateNotificationInput,
+	Notifications,
+	NotificationsInquiry,
+} from '../../libs/types/notification/notification';
 
 /**************************
  *         MEMBER         *
  *************************/
 
 export const SIGN_UP = gql`
-	mutation Signup($input: MemberInput!) {
-		signup(input: $input) {
+	mutation SignUp($input: MemberInput!) {
+		signUp(input: $input) {
 			_id
 			memberType
 			memberStatus
@@ -18,14 +22,17 @@ export const SIGN_UP = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
 			memberProducts
-			memberRank
 			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
@@ -76,11 +83,14 @@ export const UPDATE_MEMBER = gql`
 			memberAddress
 			memberDesc
 			memberProducts
-			memberRank
 			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
 			memberWarnings
 			memberBlocks
 			deletedAt
@@ -104,13 +114,17 @@ export const LIKE_TARGET_MEMBER = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
 			memberProducts
-			memberRank
+			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
@@ -119,46 +133,46 @@ export const LIKE_TARGET_MEMBER = gql`
 	}
 `;
 
-
 /**************************
  *        CART        *
  *************************/
 
 // --- Create Order ---
-export const CREATE_ORDER = gql`
- mutation CreateOrder($input: [OrderItemInput!]!) {
-  createOrder(input: $input) {
-    _id
-    orderTotal
-    orderDelivery
-    orderStatus
-    createdAt
-    orderItems {
-      _id
-      itemQuantity
-      itemPrice
-      productId
-      productData {
-        _id
-        productTitle
-        productPrice
-        productImages 
-      }
-    }
-  }
-}`;
-  
+// export const CREATE_ORDER = gql`
+// 	mutation CreateOrder($input: [OrderItemInput!]!) {
+// 		createOrder(input: $input) {
+// 			_id
+// 			orderTotal
+// 			orderDelivery
+// 			orderStatus
+// 			createdAt
+// 			orderItems {
+// 				_id
+// 				itemQuantity
+// 				itemPrice
+// 				productId
+// 				productData {
+// 					_id
+// 					productTitle
+// 					productPrice
+// 					productImages
+// 				}
+// 			}
+// 		}
+// 	}
+// `;
+
 // --- Update Order ---
 
-export const UPDATE_ORDER = gql`
-  mutation UpdateOrder($input: OrderUpdateInput!) {
-    updateOrder(input: $input) {
-      _id
-      orderStatus
-      updatedAt
-    }
-  }
-`;
+// export const UPDATE_ORDER = gql`
+// 	mutation UpdateOrder($input: OrderUpdateInput!) {
+// 		updateOrder(input: $input) {
+// 			_id
+// 			orderStatus
+// 			updatedAt
+// 		}
+// 	}
+// `;
 
 /**************************
  *        PRODUCT        *
@@ -167,29 +181,24 @@ export const UPDATE_ORDER = gql`
 export const CREATE_PRODUCT = gql`
 	mutation CreateProduct($input: ProductInput!) {
 		createProduct(input: $input) {
-			productCategory
-			productBrand
-			productLocation
-			productAddress 
+			_id
+			productType
+			productStatus
 			productMaterial
-			productGender
+			productBrand
+			productSize
 			productTitle
 			productPrice
-			productSize
-			productStock
 			productViews
 			productLikes
 			productComments
 			productRank
-			productDesc
-			productWeightUnit
-			productBarter
-			productLimited
 			productImages
-			authorId
+			productDesc
 			memberId
 			soldAt
 			deletedAt
+			constructedAt
 			createdAt
 			updatedAt
 		}
@@ -200,32 +209,30 @@ export const UPDATE_PRODUCT = gql`
 	mutation UpdateProduct($input: ProductUpdate!) {
 		updateProduct(input: $input) {
 			_id
-			productCategory
-			productBrand
-			productLocation
+			productType
 			productStatus
 			productMaterial
-			productAddress
-			productGender
+			productBrand
+			productSize
 			productTitle
 			productPrice
-			productSize
-			productStock
 			productViews
 			productLikes
 			productComments
 			productRank
-			productDesc
-			productWeightUnit
-			productBarter
-			productLimited
 			productImages
+			productDesc
 			memberId
 			soldAt
 			deletedAt
+			constructedAt
 			createdAt
 			updatedAt
 		}
+	}
+
+	query CheckAuth {
+		checkAuth
 	}
 `;
 
@@ -233,29 +240,23 @@ export const LIKE_TARGET_PRODUCT = gql`
 	mutation LikeTargetProduct($input: String!) {
 		likeTargetProduct(productId: $input) {
 			_id
-			productCategory
-			productBrand
-			productLocation
+			productType
 			productStatus
 			productMaterial
-			productGender
+			productBrand
+			productSize
 			productTitle
 			productPrice
-			productSize
-			productStock
 			productViews
 			productLikes
 			productComments
 			productRank
-			productDesc
-			productWeightUnit
-			productBarter
-			productLimited
 			productImages
-			authorId
+			productDesc
 			memberId
 			soldAt
 			deletedAt
+			constructedAt
 			createdAt
 			updatedAt
 		}
@@ -267,21 +268,22 @@ export const LIKE_TARGET_PRODUCT = gql`
  *************************/
 
 export const CREATE_BOARD_ARTICLE = gql`
-    mutation CreateBoardArticle($input: BoardArticleInput!) {
-        createBoardArticle(input: $input) {
-            _id
-            articleCategory
-            articleStatus
-            articleTitle
-            articleContent
-            articleImage
-            articleViews
-            articleLikes
-            memberId
-            createdAt
-            updatedAt
-        }
-    }
+	mutation CreateBoardArticle($input: BoardArticleInput!) {
+		createBoardArticle(input: $input) {
+			_id
+			articleCategory
+			articleStatus
+			articleTitle
+			articleContent
+			articleImage
+			articleViews
+			articleLikes
+			articleComments
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const UPDATE_BOARD_ARTICLE = gql`
@@ -295,6 +297,7 @@ export const UPDATE_BOARD_ARTICLE = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
@@ -313,6 +316,7 @@ export const LIKE_TARGET_BOARD_ARTICLE = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
@@ -325,160 +329,155 @@ export const LIKE_TARGET_BOARD_ARTICLE = gql`
  *************************/
 
 export const CREATE_COMMENT = gql`
-  mutation CreateComment($input: CommentInput!) {
-    createComment(input: $input) {
-        _id
-        commentStatus
-        commentGroup
-        commentContent
-        commentRefId
-        memberId
-        createdAt
-        updatedAt
-        parentId
-        replies {
-            _id
-            commentStatus
-            commentGroup
-            commentContent
-            commentRefId
-            memberId
-            createdAt
-            updatedAt
-            parentId
-        }
-    }
-}`;
-
-
-export const UPDATE_COMMENT = gql`
-mutation UpdateComment($input: CommentUpdate!) {
-    updateComment(input: $input) {
-        _id
-        commentStatus
-        commentGroup
-        commentContent
-        commentRefId
-        memberId
-        createdAt
-        updatedAt
-    }
-}
-`;
-export const REMOVE_COMMENT = gql`
-  mutation RemoveComment($commentId: String!) {
-    removeComment(commentId: $commentId) {
-      _id
-      commentContent
-      commentStatus
-    }
-  }
-`;
-
-
-/**************************
- *         FOLLOW        *
- *************************/
-
-export const SUBSCRIBE = gql`
-	mutation Subscribe($input: String!) {
-		subscribe(input: $input) {
+	mutation CreateComment($input: CommentInput!) {
+		createComment(input: $input) {
 			_id
-			followingId
-			followerId
+			commentStatus
+			commentGroup
+			commentContent
+			commentRefId
+			memberId
 			createdAt
 			updatedAt
 		}
 	}
 `;
 
-export const UNSUBSCRIBE = gql`
-	mutation Unsubscribe($input: String!) {
-		unsubscribe(input: $input) {
+export const UPDATE_COMMENT = gql`
+	mutation UpdateComment($input: CommentUpdate!) {
+		updateComment(input: $input) {
 			_id
-			followingId
-			followerId
+			commentStatus
+			commentGroup
+			commentContent
+			commentRefId
+			memberId
 			createdAt
+			updatedAt
+		}
+	}
+`;
+export const REMOVE_COMMENT = gql`
+	mutation RemoveCommentByAdmin($input: String!) {
+		removeCommentByAdmin(commentId: $input) {
+			_id
+			commentStatus
+			commentGroup
+			commentContent
+			commentRefId
+			memberId
+			createdAt
+			updatedAt
 		}
 	}
 `;
 
 /**************************
+ *         FOLLOW        *
+ *************************/
+
+// export const SUBSCRIBE = gql`
+// 	mutation Subscribe($input: String!) {
+// 		subscribe(input: $input) {
+// 			_id
+// 			followingId
+// 			followerId
+// 			createdAt
+// 			updatedAt
+// 		}
+// 	}
+// `;
+
+// export const UNSUBSCRIBE = gql`
+// 	mutation Unsubscribe($input: String!) {
+// 		unsubscribe(input: $input) {
+// 			_id
+// 			followingId
+// 			followerId
+// 			createdAt
+// 		}
+// 	}
+// `;
+
+/**************************
  *         CONTACT        *
  *************************/
-export const CREATE_CONTACT = gql`
-  mutation CreateContact($createContactInput: CreateContactInput!) {
-    createContact(createContactInput: $createContactInput) {
-      _id
-	  name
-	  email
-	  subject
-	  message
-	  createdAt
-    }
-  }
-`;
-
+// export const CREATE_CONTACT = gql`
+// 	mutation CreateContact($createContactInput: CreateContactInput!) {
+// 		createContact(createContactInput: $createContactInput) {
+// 			_id
+// 			name
+// 			email
+// 			subject
+// 			message
+// 			createdAt
+// 		}
+// 	}
+// `;
 
 // ---------- Fragments ----------
 export const NOTIFICATION_FIELDS = gql`
-  fragment NotificationFields on Notification {
-    _id
-    notificationType
-    notificationGroup
-    notificationStatus
-    notificationTitle
-    notificationDesc
-    authorId
-    productId
-    articleId
-    commentId
-    refId
-    createdAt
-    updatedAt
-  }
+	fragment NotificationFields on Notification {
+		_id
+		notificationType
+		notificationGroup
+		notificationStatus
+		notificationTitle
+		notificationDesc
+		authorId
+		productId
+		articleId
+		commentId
+		refId
+		createdAt
+		updatedAt
+	}
 `;
 
 // ---------- Queries ----------
 export const GET_NOTIFICATIONS = gql`
-  ${NOTIFICATION_FIELDS}
-  query GetNotifications($input: NotificationsInquiry!) {
-    getNotifications(input: $input) {
-      total
-      list { ...NotificationFields }
-    }
-  }
+	${NOTIFICATION_FIELDS}
+	query GetNotifications($input: NotificationsInquiry!) {
+		getNotifications(input: $input) {
+			total
+			list {
+				...NotificationFields
+			}
+		}
+	}
 `;
 
 // ---------- Mutations ----------
 export const CREATE_NOTIFICATION = gql`
-  mutation CreateNotification($input: CreateNotificationInput!) {
-    createNotification(input: $input) { _id }
-  }
+	mutation CreateNotification($input: CreateNotificationInput!) {
+		createNotification(input: $input) {
+			_id
+		}
+	}
 `;
 
 export const MARK_NOTIFICATION_READ = gql`
-  ${NOTIFICATION_FIELDS}
-  mutation MarkNotificationRead($notificationId: String!) {
-    markNotificationRead(notificationId: $notificationId) {
-      ...NotificationFields
-    }
-  }
+	${NOTIFICATION_FIELDS}
+	mutation MarkNotificationRead($notificationId: String!) {
+		markNotificationRead(notificationId: $notificationId) {
+			...NotificationFields
+		}
+	}
 `;
 
 export const MARK_ALL_NOTIFICATIONS_READ = gql`
-  mutation MarkAllNotificationsRead {
-    markAllNotificationsRead
-  }
+	mutation MarkAllNotificationsRead {
+		markAllNotificationsRead
+	}
 `;
 
 export const DELETE_NOTIFICATION = gql`
-  mutation DeleteNotificationById($id: String!) {
-    deleteNotificationById(id: $id) {
-      success
-      message
-    }
-  }
+	mutation DeleteNotificationById($id: String!) {
+		deleteNotificationById(id: $id) {
+			success
+			message
+		}
+	}
 `;
 
 export type DeleteNotificationVars = { id: string };
@@ -496,4 +495,3 @@ export type MarkNotificationReadVars = { notificationId: string };
 
 export type MarkAllNotificationsReadData = { markAllNotificationsRead: boolean };
 export type MarkAllNotificationsReadVars = Record<string, never>;
-

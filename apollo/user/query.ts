@@ -5,47 +5,47 @@ import { NOTIFICATION_FIELDS } from './mutation';
  *         MEMBER         *
  *************************/
 
-export const GET_STORES = gql`
-	query GetStores($input: StoreInquiry!) {
-    getStores(input: $input) {
-        list {
-            _id
-            memberType
-            memberStatus
-            memberAuthType
-            memberPhone
-            memberNick
-            memberFullName
-            memberImage
-            memberAddress
-            memberDesc
-            memberProducts
-            memberArticles
-            memberFollowers
-            memberFollowings
-            memberPoints
-            memberLikes
-            memberViews
-            memberComments
-            memberRank
-            memberWarnings
-            memberBlocks
-            deletedAt
-            createdAt
-            updatedAt
-            accessToken
-            meLiked {
-                memberId
-                likeRefId
-                myFavorite
-            }
-        }
-        metaCounter {
-            total
-        }
-    }
-}
-`;
+// export const GET_STORES = gql`
+// 	query GetStores($input: StoreInquiry!) {
+//     getStores(input: $input) {
+//         list {
+//             _id
+//             memberType
+//             memberStatus
+//             memberAuthType
+//             memberPhone
+//             memberNick
+//             memberFullName
+//             memberImage
+//             memberAddress
+//             memberDesc
+//             memberProducts
+//             memberArticles
+//             memberFollowers
+//             memberFollowings
+//             memberPoints
+//             memberLikes
+//             memberViews
+//             memberComments
+//             memberRank
+//             memberWarnings
+//             memberBlocks
+//             deletedAt
+//             createdAt
+//             updatedAt
+//             accessToken
+//             meLiked {
+//                 memberId
+//                 likeRefId
+//                 myFavorite
+//             }
+//         }
+//         metaCounter {
+//             total
+//         }
+//     }
+// }
+// `;
 
 export const GET_MEMBER = gql(`
 	query GetMember($input: String!) {
@@ -90,32 +90,29 @@ export const GET_MEMBER = gql(`
 // --- Get My Orders ---
 // apollo/user/query.ts
 
-export const GET_MY_ORDERS = gql`
-  query GetMyOrders($input: OrderInquiry!) {
-    getMyOrders(input: $input) {
-      _id
-      orderTotal
-      orderDelivery
-      orderStatus
-      createdAt
-      orderItems {
-        _id
-        productId
-        itemQuantity
-        itemPrice
-        productData {
-          _id
-          productTitle
-          productPrice
-          productImages
-        }
-      }
-    }
-  }
-`;
-
-
-
+// export const GET_MY_ORDERS = gql`
+//   query GetMyOrders($input: OrderInquiry!) {
+//     getMyOrders(input: $input) {
+//       _id
+//       orderTotal
+//       orderDelivery
+//       orderStatus
+//       createdAt
+//       orderItems {
+//         _id
+//         productId
+//         itemQuantity
+//         itemPrice
+//         productData {
+//           _id
+//           productTitle
+//           productPrice
+//           productImages
+//         }
+//       }
+//     }
+//   }
+// `;
 
 /**************************
  *        PRODUCT        *
@@ -125,28 +122,23 @@ export const GET_PRODUCT = gql`
 	query GetProduct($input: String!) {
 		getProduct(productId: $input) {
 			_id
-			productCategory
-			productBrand
-			productLocation
+			productType
 			productStatus
 			productMaterial
-			productGender
+			productBrand
+			productSize
 			productTitle
 			productPrice
-			productSize
-			productStock
 			productViews
 			productLikes
 			productComments
 			productRank
-			productDesc
-			productWeightUnit
-			productBarter
-			productLimited
 			productImages
+			productDesc
 			memberId
 			soldAt
 			deletedAt
+			constructedAt
 			createdAt
 			updatedAt
 			memberData {
@@ -190,136 +182,23 @@ export const GET_PRODUCTS = gql`
 		getProducts(input: $input) {
 			list {
 				_id
-				productCategory
-				productBrand
-				productLocation
+				productType
 				productStatus
 				productMaterial
-				productGender
+				productBrand
+				productSize
 				productTitle
 				productPrice
-				productSize
-				productStock
 				productViews
 				productLikes
 				productComments
 				productRank
-				productDesc
-				productWeightUnit
-				productBarter
-				productLimited
 				productImages
-				authorId
+				productDesc
 				memberId
 				soldAt
 				deletedAt
-				createdAt
-				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProducts
-					memberArticles
-					memberFollowers
-					memberFollowings
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments
-					memberRank
-					memberWarnings
-					memberBlocks
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
-				meLiked {
-					memberId
-					likeRefId
-					myFavorite
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
-`;
-
-export const GET_STORE_PRODUCTS = gql`
-	query GetStoreProducts($input: StoreProductsInquiry!) {
-		getStoreProducts(input: $input) {
-			list {
-				_id
-				productCategory
-				productBrand
-				productLocation
-				productStatus
-				productMaterial
-				productGender
-				productTitle
-				productPrice
-				productSize
-				productStock
-				productViews
-				productLikes
-				productComments
-				productRank
-				productDesc
-				productWeightUnit
-				productBarter
-				productLimited
-				productImages
-				memberId
-				soldAt
-				deletedAt
-				createdAt
-				updatedAt
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
-`;
-
-export const GET_FAVORITES = gql`
-	query GetFavorites($input: OrdinaryInquiry!) {
-		getFavorites(input: $input) {
-			list {
-				_id
-				productCategory
-				productBrand
-				productLocation
-				productStatus
-				productMaterial
-				productGender
-				productTitle
-				productPrice
-				productSize
-				productStock
-				productViews
-				productLikes
-				productComments
-				productRank
-				productDesc
-				productWeightUnit
-				productBarter
-				productLimited
-				productImages
-				authorId
-				memberId
-				soldAt
-				deletedAt
+				constructedAt
 				createdAt
 				updatedAt
 				memberData {
@@ -357,70 +236,172 @@ export const GET_FAVORITES = gql`
 	}
 `;
 
-export const GET_VISITED = gql`
-	query GetVisited($input: OrdinaryInquiry!) {
-		getVisited(input: $input) {
-			list {
-				_id
-				productCategory
-				productBrand
-				productLocation
-				productStatus
-				productMaterial
-				productGender
-				productTitle
-				productPrice
-				productSize
-				productStock
-				productViews
-				productLikes
-				productComments
-				productRank
-				productDesc
-				productWeightUnit
-				productBarter
-				productLimited
-				productImages
-				authorId
-				memberId
-				soldAt
-				deletedAt
-				createdAt
-				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProducts
-					memberArticles
-					memberFollowers
-					memberFollowings
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments
-					memberRank
-					memberWarnings
-					memberBlocks
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
-`;
+// export const GET_STORE_PRODUCTS = gql`
+// 	query GetStoreProducts($input: StoreProductsInquiry!) {
+// 		getStoreProducts(input: $input) {
+// 			list {
+// 				_id
+// 				productCategory
+// 				productBrand
+// 				productLocation
+// 				productStatus
+// 				productMaterial
+// 				productGender
+// 				productTitle
+// 				productPrice
+// 				productSize
+// 				productStock
+// 				productViews
+// 				productLikes
+// 				productComments
+// 				productRank
+// 				productDesc
+// 				productWeightUnit
+// 				productBarter
+// 				productLimited
+// 				productImages
+// 				memberId
+// 				soldAt
+// 				deletedAt
+// 				createdAt
+// 				updatedAt
+// 			}
+// 			metaCounter {
+// 				total
+// 			}
+// 		}
+// 	}
+// `;
+
+// export const GET_FAVORITES = gql`
+// 	query GetFavorites($input: OrdinaryInquiry!) {
+// 		getFavorites(input: $input) {
+// 			list {
+// 				_id
+// 				productCategory
+// 				productBrand
+// 				productLocation
+// 				productStatus
+// 				productMaterial
+// 				productGender
+// 				productTitle
+// 				productPrice
+// 				productSize
+// 				productStock
+// 				productViews
+// 				productLikes
+// 				productComments
+// 				productRank
+// 				productDesc
+// 				productWeightUnit
+// 				productBarter
+// 				productLimited
+// 				productImages
+// 				authorId
+// 				memberId
+// 				soldAt
+// 				deletedAt
+// 				createdAt
+// 				updatedAt
+// 				memberData {
+// 					_id
+// 					memberType
+// 					memberStatus
+// 					memberAuthType
+// 					memberPhone
+// 					memberNick
+// 					memberFullName
+// 					memberImage
+// 					memberAddress
+// 					memberDesc
+// 					memberProducts
+// 					memberArticles
+// 					memberFollowers
+// 					memberFollowings
+// 					memberPoints
+// 					memberLikes
+// 					memberViews
+// 					memberComments
+// 					memberRank
+// 					memberWarnings
+// 					memberBlocks
+// 					deletedAt
+// 					createdAt
+// 					updatedAt
+// 					accessToken
+// 				}
+// 			}
+// 			metaCounter {
+// 				total
+// 			}
+// 		}
+// 	}
+// `;
+
+// export const GET_VISITED = gql`
+// 	query GetVisited($input: OrdinaryInquiry!) {
+// 		getVisited(input: $input) {
+// 			list {
+// 				_id
+// 				productCategory
+// 				productBrand
+// 				productLocation
+// 				productStatus
+// 				productMaterial
+// 				productGender
+// 				productTitle
+// 				productPrice
+// 				productSize
+// 				productStock
+// 				productViews
+// 				productLikes
+// 				productComments
+// 				productRank
+// 				productDesc
+// 				productWeightUnit
+// 				productBarter
+// 				productLimited
+// 				productImages
+// 				authorId
+// 				memberId
+// 				soldAt
+// 				deletedAt
+// 				createdAt
+// 				updatedAt
+// 				memberData {
+// 					_id
+// 					memberType
+// 					memberStatus
+// 					memberAuthType
+// 					memberPhone
+// 					memberNick
+// 					memberFullName
+// 					memberImage
+// 					memberAddress
+// 					memberDesc
+// 					memberProducts
+// 					memberArticles
+// 					memberFollowers
+// 					memberFollowings
+// 					memberPoints
+// 					memberLikes
+// 					memberViews
+// 					memberComments
+// 					memberRank
+// 					memberWarnings
+// 					memberBlocks
+// 					deletedAt
+// 					createdAt
+// 					updatedAt
+// 					accessToken
+// 				}
+// 			}
+// 			metaCounter {
+// 				total
+// 			}
+// 		}
+// 	}
+// `;
 
 /**************************
  *      BOARD-ARTICLE     *
@@ -528,52 +509,50 @@ export const GET_BOARD_ARTICLES = gql`
  *************************/
 
 export const GET_COMMENTS = gql`
-query GetComments($input: CommentsInquiry!) {
-    getComments(input: $input) {
-        list {
-            _id
-            commentStatus
-            commentGroup
-            commentContent
-            commentRefId
-            memberId
-            createdAt
-            updatedAt
-            memberData {
-                _id
-                memberType
-                memberStatus
-                memberAuthType
-                memberPhone
-                memberNick
-                memberFullName
-                memberImage
-                memberAddress
-                memberDesc
-                memberProducts
-                memberArticles
-                memberFollowers
-                memberFollowings
-                memberPoints
-                memberLikes
-                memberViews
-                memberComments
-                memberRank
-                memberWarnings
-                memberBlocks
-                deletedAt
-                createdAt
-                updatedAt
-            }
-        }
-        metaCounter {
-            total
-        }
-    }
-}
-
+	query GetComments($input: CommentsInquiry!) {
+		getComments(input: $input) {
+			list {
+				_id
+				commentStatus
+				commentGroup
+				commentContent
+				commentRefId
+				memberId
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProducts
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
 `;
-
 
 /**************************
  *         FOLLOW        *
@@ -685,69 +664,65 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 	}
 `;
 
-
-
 /**************************
  *         NOTICE        *
  *************************/
 
 export const GET_NOTICES = gql`
-  query GetNotices($input: NoticeInquiry!) {
-    getNotices(input: $input) {
-      list {
-        _id
-        noticeStatus
-        noticeTitle
-        noticeContent
-        memberId
-        createdAt
-        updatedAt
-      }
-      metaCounter {
-        total
-      }
-    }
-  }
+	query GetNotices($input: NoticeInquiry!) {
+		getNotices(input: $input) {
+			list {
+				_id
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
 `;
 
 export const GET_NOTICE = gql`
-  query GetNotice($input: String!) {
-    getNotice(input: $input) {
-      _id
-      noticeStatus
-      noticeTitle
-      noticeContent
-      memberId
-      createdAt
-      updatedAt
-    }
-  }
+	query GetNotice($input: String!) {
+		getNotice(input: $input) {
+			_id
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const GET_CONTACTS = gql`
-  query {
-    findAllContacts {
-      _id
-      name
-      email
-      subject
-      message
-      createdAt
-    }
-  }
+	query {
+		findAllContacts {
+			_id
+			name
+			email
+			subject
+			message
+			createdAt
+		}
+	}
 `;
-
-
 
 // ---------- Queries ----------
 export const GET_NOTIFICATIONS = gql`
-  ${NOTIFICATION_FIELDS}
-  query GetNotifications($input: NotificationsInquiry!) {
-    getNotifications(input: $input) {
-      total
-      list {
-        ...NotificationFields
-      }
-    }
-  }
+	${NOTIFICATION_FIELDS}
+	query GetNotifications($input: NotificationsInquiry!) {
+		getNotifications(input: $input) {
+			total
+			list {
+				...NotificationFields
+			}
+		}
+	}
 `;
