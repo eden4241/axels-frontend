@@ -6,7 +6,7 @@ import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import BrandsSection from '../libs/components/homepage/BrandSection';
 import TrendProducts from '../libs/components/homepage/TrendProducts';
 import IconWall from '../libs/components/homepage/IconWall';
-import TopStores from '../libs/components/homepage/TopStores';
+import TopStores from '../libs/components/homepage/TopSellers';
 import Shipping from '../libs/components/homepage/Shipping';
 import CategoryProducts from '../libs/components/homepage/CategoryProducts';
 import Advertisement from '../libs/components/homepage/Advertisement';

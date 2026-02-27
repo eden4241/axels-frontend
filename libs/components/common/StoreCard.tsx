@@ -44,7 +44,7 @@ const StoreCard = (props: StoreCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>STORE CARD</div>;
+		return <div>SELLER CARD</div>;
 	} else {
 		return (
 			<Stack className="top-store-card">
@@ -97,7 +97,7 @@ const StoreCard = (props: StoreCardProps) => {
 							router.push(`/store/detail?id=${store._id}`);
 						}}
 					>
-						<span>View Store Info</span>
+						<span>View Seller Info</span>
 					</button>
 
 					{!recentlyVisited && (

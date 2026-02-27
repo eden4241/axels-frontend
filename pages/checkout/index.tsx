@@ -257,7 +257,7 @@ const Checkout = () => {
 					</Button>
 
 					<Stack direction="row" justifyContent="space-between">
-						<Button onClick={() => router.push('/store')}>Return to Store</Button>
+						<Button onClick={() => router.push('/store')}>Return to Sellers</Button>
 						<Button color="error" onClick={() => basketItemsVar([])}>
 							Empty Cart
 						</Button>

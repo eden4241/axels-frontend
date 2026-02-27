@@ -55,7 +55,7 @@ const TopStoreCard = (props: TopStoreProps) => {
 						<IconButton
 							size="small"
 							onClick={(e: any) => handleLikeClick(e, store._id)}
-							title={!user?._id ? 'Login required to like' : 'Like this store'}
+							title={!user?._id ? 'Login required to like' : 'Like this seller'}
 						>
 							{liked || myFavorites || store?.meLiked?.[0]?.myFavorite ? (
 								<FavoriteIcon className={glow ? 'glow' : ''} fontSize="small" />

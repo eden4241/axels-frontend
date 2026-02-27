@@ -11,7 +11,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
 import { CREATE_NOTIFICATION, LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_STORES } from '../../apollo/user/query';
+import { GET_SELLER } from '../../apollo/user/query';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
 import { CreateNotificationInput } from '../../libs/types/notification/notification';
@@ -34,7 +34,7 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 	const [searchFilter, setSearchFilter] = useState<any>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
-	const [stores, setStores] = useState<Member[]>([]);
+	const [sellers, setSellers] = useState<Member[]>([]);
 	const { t } = useTranslation('common');
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
@@ -49,13 +49,13 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 		data: getStoresData,
 		error: getStoresError,
 		refetch: getStoresRefetch,
-	} = useQuery(GET_STORES, {
+	} = useQuery(GET_SELLER, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: any) => {
-			setStores(data?.getStores?.list);
-			setTotal(data?.getStores?.metaCounter[0]?.total);
+			setSellers(data?.getSellers?.list);
+			setTotal(data?.getSellers?.metaCounter[0]?.total);
 		},
 	});
 
@@ -165,7 +165,7 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>STORES PAGE MOBILE</h1>;
+		return <h1>SELLERS PAGE MOBILE</h1>;
 	} else {
 		return (
 			<Stack className={'store-list-page'}>
@@ -175,7 +175,7 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 							<div className="search-box">
 								<input
 									type="text"
-									placeholder={'Search for a store'}
+									placeholder={'Search for a seller'}
 									value={searchText}
 									onChange={(e: any) => setSearchText(e.target.value)}
 									onKeyDown={(event: any) => {
@@ -238,7 +238,7 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-wrapper'}>
-						{stores?.length === 0 ? (
+						{sellers?.length === 0 ? (
 							<Box component={'div'} className={'empty-list'}>
 								<Box className={'empty-list-content'}>
 									<img src="/img/icons/empty.png" alt="" />
@@ -254,19 +254,19 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 								</Box>
 							</Box>
 						) : (
-							stores.map((store: Member) => {
+							sellers.map((seller: Member) => {
 								return (
-									<StoreCard store={store} user={userVar()} likeMemberHandler={likeMemberHandler} key={store._id} />
+									<StoreCard store={seller} user={userVar()} likeMemberHandler={likeMemberHandler} key={seller._id} />
 								);
 							})
 						)}
 					</Stack>
 					<Stack className={'pagination'}>
-						{stores.length ? (
+						{sellers.length ? (
 							<>
 								<Stack className="pagination-box">
 									<Pagination
-										count={Math.ceil(stores.length / initialInput.limit)}
+										count={Math.ceil(sellers.length / initialInput.limit)}
 										onChange={paginationChangeHandler}
 										variant="outlined"
 										shape="rounded"
@@ -277,7 +277,7 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 										classes={{ ul: 'custom-pagination-ul' }}
 									/>
 									<Typography className="total-result">
-										Showing {stores.length} of {stores.length} products
+										Showing {sellers.length} of {sellers.length} products
 									</Typography>
 								</Stack>
 							</>

@@ -35,12 +35,12 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/store':
 					title = 'Stores';
-					desc = 'Home / Stores';
+					desc = 'Home / Sellers';
 					bgImage = '/img/banner/store.png';
 					break;
 				case '/store/detail':
 					title = 'Store Page';
-					desc = 'Home / Store Details';
+					desc = 'Home / Seller Details';
 					bgImage = '/img/banner/store-detail.png';
 					break;
 				case '/mypage':

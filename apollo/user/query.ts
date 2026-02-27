@@ -241,172 +241,182 @@ export const GET_PRODUCTS = gql`
 	}
 `;
 
-// export const ORE_PRODUCTS = gql`
-// 	query GetStoreProducts($input: StoreProductsInquiry!) {
-// 		getStoreProducts(input: $input) {
-// 			list {
-// 				_id
-// 				productCategory
-// 				productBrand
-// 				productLocation
-// 				productStatus
-// 				productMaterial
-// 				productGender
-// 				productTitle
-// 				productPrice
-// 				productSize
-// 				productStock
-// 				productViews
-// 				productLikes
-// 				productComments
-// 				productRank
-// 				productDesc
-// 				productWeightUnit
-// 				productBarter
-// 				productLimited
-// 				productImages
-// 				memberId
-// 				soldAt
-// 				deletedAt
-// 				createdAt
-// 				updatedAt
-// 			}
-// 			metaCounter {
-// 				total
-// 			}
-// 		}
-// 	}
-// `;
+export const GET_SELLER_PRODUCTS = gql`
+	query GetSellerProducts($input: SellerProductsInquiry!) {
+		getSellerProducts(input: $input) {
+			list {
+				_id
+				productType
+				productStatus
+				productMaterial
+				productBrand
+				productSize
+				productTitle
+				productPrice
+				productViews
+				productLikes
+				productComments
+				productRank
+				productImages
+				productDesc
+				memberId
+				soldAt
+				deletedAt
+				constructedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProducts
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
 
-// export const GET_FAVORITES = gql`
-// 	query GetFavorites($input: OrdinaryInquiry!) {
-// 		getFavorites(input: $input) {
-// 			list {
-// 				_id
-// 				productCategory
-// 				productBrand
-// 				productLocation
-// 				productStatus
-// 				productMaterial
-// 				productGender
-// 				productTitle
-// 				productPrice
-// 				productSize
-// 				productStock
-// 				productViews
-// 				productLikes
-// 				productComments
-// 				productRank
-// 				productDesc
-// 				productWeightUnit
-// 				productBarter
-// 				productLimited
-// 				productImages
-// 				authorId
-// 				memberId
-// 				soldAt
-// 				deletedAt
-// 				createdAt
-// 				updatedAt
-// 				memberData {
-// 					_id
-// 					memberType
-// 					memberStatus
-// 					memberAuthType
-// 					memberPhone
-// 					memberNick
-// 					memberFullName
-// 					memberImage
-// 					memberAddress
-// 					memberDesc
-// 					memberProducts
-// 					memberArticles
-// 					memberFollowers
-// 					memberFollowings
-// 					memberPoints
-// 					memberLikes
-// 					memberViews
-// 					memberComments
-// 					memberRank
-// 					memberWarnings
-// 					memberBlocks
-// 					deletedAt
-// 					createdAt
-// 					updatedAt
-// 					accessToken
-// 				}
-// 			}
-// 			metaCounter {
-// 				total
-// 			}
-// 		}
-// 	}
-// `;
+export const GET_FAVORITES = gql`
+	query GetFavorites($input: OrdinaryInquiry!) {
+		getFavorites(input: $input) {
+			list {
+				_id
+				productType
+				productStatus
+				productMaterial
+				productBrand
+				productSize
+				productTitle
+				productPrice
+				productViews
+				productLikes
+				productComments
+				productRank
+				productImages
+				productDesc
+				memberId
+				soldAt
+				deletedAt
+				constructedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProducts
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
 
-// export const GET_VISITED = gql`
-// 	query GetVisited($input: OrdinaryInquiry!) {
-// 		getVisited(input: $input) {
-// 			list {
-// 				_id
-// 				productCategory
-// 				productBrand
-// 				productLocation
-// 				productStatus
-// 				productMaterial
-// 				productGender
-// 				productTitle
-// 				productPrice
-// 				productSize
-// 				productStock
-// 				productViews
-// 				productLikes
-// 				productComments
-// 				productRank
-// 				productDesc
-// 				productWeightUnit
-// 				productBarter
-// 				productLimited
-// 				productImages
-// 				authorId
-// 				memberId
-// 				soldAt
-// 				deletedAt
-// 				createdAt
-// 				updatedAt
-// 				memberData {
-// 					_id
-// 					memberType
-// 					memberStatus
-// 					memberAuthType
-// 					memberPhone
-// 					memberNick
-// 					memberFullName
-// 					memberImage
-// 					memberAddress
-// 					memberDesc
-// 					memberProducts
-// 					memberArticles
-// 					memberFollowers
-// 					memberFollowings
-// 					memberPoints
-// 					memberLikes
-// 					memberViews
-// 					memberComments
-// 					memberRank
-// 					memberWarnings
-// 					memberBlocks
-// 					deletedAt
-// 					createdAt
-// 					updatedAt
-// 					accessToken
-// 				}
-// 			}
-// 			metaCounter {
-// 				total
-// 			}
-// 		}
-// 	}
-// `;
+export const GET_VISITED = gql`
+	query GetVisited($input: OrdinaryInquiry!) {
+		getVisited(input: $input) {
+			list {
+				_id
+				productType
+				productStatus
+				productMaterial
+				productBrand
+				productSize
+				productTitle
+				productPrice
+				productViews
+				productLikes
+				productComments
+				productRank
+				productImages
+				productDesc
+				memberId
+				soldAt
+				deletedAt
+				constructedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProducts
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
 
 /**************************
  *      BOARD-ARTICLE     *

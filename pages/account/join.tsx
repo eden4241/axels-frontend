@@ -347,7 +347,7 @@ const Join: NextPage = () => {
 															onChange={() => onSignupChange('type', 'STORE')}
 														/>
 													}
-													label={t('Store')}
+													label={t('Seller')}
 												/>
 											</FormGroup>
 										</div>

@@ -43,11 +43,11 @@ const categoryLabels: Record<FaqCategory, string> = {
 	PRODUCT: 'Product',
 	PAYMENT: 'Payment',
 	FOR_BUYERS: 'For Buyers',
-	FOR_STORES: 'For Stores',
+	FOR_STORES: 'For Sellers',
 	MEMBERSHIP: 'Membership',
 	COMMUNITY: 'Community',
 	OTHERS: 'Other',
-	[FaqCategory.GENERAL]: ''
+	[FaqCategory.GENERAL]: '',
 };
 
 const Faq = () => {

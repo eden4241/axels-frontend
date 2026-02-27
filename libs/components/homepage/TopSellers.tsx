@@ -6,7 +6,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
-import TopStoreCard from './TopStoreCard';
+import TopStoreCard from './TopSellerCard';
 import { Member } from '../../types/member/member';
 
 import { GET_SELLER } from '../../../apollo/user/query';
@@ -18,17 +18,18 @@ import 'swiper/css/pagination';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { userVar } from '../../../apollo/store';
 import { i18n, useTranslation } from 'next-i18next';
+import { StoreInquiry } from '../../types/member/member.input';
 
 interface TopSellersProps {
-	initialInput: SellersInquiry;
+	initialInput: StoreInquiry;
 }
 
-const TopStores = (props: TopStoresProps) => {
+const TopSellers = (props: TopSellersProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { t } = useTranslation('common');
-	const [topStores, setTopStores] = useState<Member[]>([]);
+	const [sellers, setSellers] = useState<Member[]>([]);
 	const [searchFilter, setSearchFilter] = useState<any>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
@@ -97,7 +98,7 @@ const TopStores = (props: TopStoresProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<span>{t('Top Sellers')}</span>
-						<p>{t('Our Top Stores always ready to serve you')}</p>
+						<p>{t('Our Top Sellers always ready to serve you')}</p>
 					</Stack>
 
 					<Stack className={'wrapper'}>
@@ -105,7 +106,7 @@ const TopStores = (props: TopStoresProps) => {
 							<Box className="empty-list">
 								<Box className="empty-list-content">
 									<img src="/img/icons/empty.png" alt="" />
-									<strong>{t('Loading stores…')}</strong>
+									<strong>{t('Loading sellers…')}</strong>
 								</Box>
 							</Box>
 						) : !hasData ? (
@@ -137,7 +138,7 @@ const TopStores = (props: TopStoresProps) => {
 							>
 								{sellers.map((seller: Member) => (
 									<SwiperSlide className={'top-stores-slide'} key={seller?._id} style={{ width: 'auto' }}>
-										<TopStoreCard seller={seller} key={seller?.memberNick} likeMemberHandler={likeMemberHandler} />
+										<TopStoreCard store={seller} key={seller?.memberNick} likeMemberHandler={likeMemberHandler} />
 									</SwiperSlide>
 								))}
 							</Swiper>
@@ -170,7 +171,7 @@ const TopStores = (props: TopStoresProps) => {
 					</Box>
 
 					<Box className={'card-wrapper'}>
-						{topStores.length === 0 ? (
+						{sellers.length === 0 ? (
 							<Box className={'empty-list'}>
 								<Box className={'empty-list-content'}>
 									<img src="/img/icons/empty.png" alt="" />
@@ -195,9 +196,9 @@ const TopStores = (props: TopStoresProps) => {
 								modules={[Autoplay, Navigation, Pagination]}
 								navigation={{ nextEl: '.swiper-stores-next', prevEl: '.swiper-stores-prev' }}
 							>
-								{topStores.map((store: Member) => (
-									<SwiperSlide className="top-stores-slide" key={store._id}>
-										<TopStoreCard store={store} user={userVar()} likeMemberHandler={likeMemberHandler} />
+								{sellers.map((seller: Member) => (
+									<SwiperSlide className="top-stores-slide" key={seller._id}>
+										<TopStoreCard store={seller} user={userVar()} likeMemberHandler={likeMemberHandler} />
 									</SwiperSlide>
 								))}
 							</Swiper>
@@ -213,7 +214,7 @@ const TopStores = (props: TopStoresProps) => {
 	);
 };
 
-TopStores.defaultProps = {
+TopSellers.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 10,
@@ -222,4 +223,4 @@ TopStores.defaultProps = {
 	},
 };
 
-export default TopStores;
+export default TopSellers;

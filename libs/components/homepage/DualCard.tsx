@@ -23,7 +23,7 @@ const DualNavigationCards = () => {
 	return (
 		<div className="dual-cards-wrapper">
 			<Stack className="container">
-				{/* First Card - User */}
+				{/* First Card - Buyer side (browse sellers) */}
 				<div className="nav-card user-card" onClick={() => router.push('/store')}>
 					<h3>{t('Are You Looking For Jewelry?')}</h3>
 					<p>
@@ -34,7 +34,7 @@ const DualNavigationCards = () => {
 						<img src="/img/icons/arrow.png" alt="Arrow" className="arrow-icon" />
 					</button>
 					<Box>
-						<img src="/img/icons/shop2.png" alt="Store" className="card-icon" />
+						<img src="/img/icons/shop2.png" alt="Seller Store" className="card-icon" />
 					</Box>
 				</div>
 
