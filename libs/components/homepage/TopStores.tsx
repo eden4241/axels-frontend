@@ -8,8 +8,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import TopStoreCard from './TopStoreCard';
 import { Member } from '../../types/member/member';
-import { StoreInquiry } from '../../types/member/member.input';
-import { GET_STORES } from '../../../apollo/user/query';
+
+import { GET_SELLER } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_MEMBER } from '../../../apollo/user/mutation';
 import 'swiper/css';
@@ -19,8 +19,8 @@ import { sweetMixinErrorAlert } from '../../sweetAlert';
 import { userVar } from '../../../apollo/store';
 import { i18n, useTranslation } from 'next-i18next';
 
-interface TopStoresProps {
-	initialInput: StoreInquiry;
+interface TopSellersProps {
+	initialInput: SellersInquiry;
 }
 
 const TopStores = (props: TopStoresProps) => {
@@ -37,25 +37,25 @@ const TopStores = (props: TopStoresProps) => {
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 
 	const {
-		loading: getStoresLoading,
-		data: getStoresData,
-		error: getStoresError,
-		refetch: getStoresRefetch,
-	} = useQuery(GET_STORES, {
+		loading: getSellersLoading,
+		data: getSellersData,
+		error: getSellersError,
+		refetch: getSellersRefetch,
+	} = useQuery(GET_SELLER, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data) => {
-			// console.log('✅ getStoresData:', data);
-			setTopStores(data?.getStores?.list ?? []);
+			// console.log('✅ getSellersData:', data);
+			setSellers(data?.getSellers?.list ?? []);
 		},
 		onError: (error) => {
-			console.error('❌ getStoresError:', error);
+			console.error('❌ getSellersError:', error);
 		},
 	});
 
 	/** HANDLERS **/
-	const likeMemberHandler = async (_store: Member, id: string) => {
+	const likeMemberHandler = async (_seller: Member, id: string) => {
 		try {
 			const user = userVar();
 			if (!user || !user._id) {
@@ -76,27 +76,27 @@ const TopStores = (props: TopStoresProps) => {
 			}
 			if (!id) return;
 			await likeTargetMember({ variables: { input: id } });
-			await getStoresRefetch({ input: searchFilter });
+			await getSellersRefetch({ input: searchFilter });
 		} catch (err: any) {
 			console.error('ERROR on likeMemberHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 
-	const pushStoreHandler = async (storeId: string) => {
-		router.push({ pathname: '/store', query: { id: storeId } });
+	const pushSellerHandler = async (sellerId: string) => {
+		router.push({ pathname: '/seller', query: { id: sellerId } });
 	};
 
 	/* ================= MOBILE ================= */
 	if (device === 'mobile') {
-		const isLoading = getStoresLoading && topStores.length === 0;
-		const hasData = topStores.length > 0;
+		const isLoading = getSellersLoading && sellers.length === 0;
+		const hasData = sellers.length > 0;
 
 		return (
 			<Stack className={`top-stores mobile`}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<span>{t('Top Stores')}</span>
+						<span>{t('Top Sellers')}</span>
 						<p>{t('Our Top Stores always ready to serve you')}</p>
 					</Stack>
 
@@ -113,13 +113,13 @@ const TopStores = (props: TopStoresProps) => {
 								<Box className="empty-list-content">
 									<img src="/img/icons/empty.png" alt="" />
 									<span>{t('OOPS')}</span>
-									<strong>{t('There are no stores available at the moment')}</strong>
+									<strong>{t('There are no sellers available at the moment')}</strong>
 								</Box>
 							</Box>
 						) : (
 							<Swiper
 								className={'top-stores-swiper'}
-								key={topStores.length} // re-measure when data arrives
+								key={sellers.length} // re-measure when data arrives
 								observeParents
 								resizeObserver
 								updateOnWindowResize
@@ -135,9 +135,9 @@ const TopStores = (props: TopStoresProps) => {
 									768: { slidesPerView: 2, spaceBetween: 16, centeredSlides: true },
 								}}
 							>
-								{topStores.map((store: Member) => (
-									<SwiperSlide className={'top-stores-slide'} key={store?._id} style={{ width: 'auto' }}>
-										<TopStoreCard store={store} key={store?.memberNick} likeMemberHandler={likeMemberHandler} />
+								{sellers.map((seller: Member) => (
+									<SwiperSlide className={'top-stores-slide'} key={seller?._id} style={{ width: 'auto' }}>
+										<TopStoreCard seller={seller} key={seller?.memberNick} likeMemberHandler={likeMemberHandler} />
 									</SwiperSlide>
 								))}
 							</Swiper>

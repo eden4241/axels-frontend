@@ -5,47 +5,52 @@ import { NOTIFICATION_FIELDS } from './mutation';
  *         MEMBER         *
  *************************/
 
-// export const GET_STORES = gql`
-// 	query GetStores($input: StoreInquiry!) {
-//     getStores(input: $input) {
-//         list {
-//             _id
-//             memberType
-//             memberStatus
-//             memberAuthType
-//             memberPhone
-//             memberNick
-//             memberFullName
-//             memberImage
-//             memberAddress
-//             memberDesc
-//             memberProducts
-//             memberArticles
-//             memberFollowers
-//             memberFollowings
-//             memberPoints
-//             memberLikes
-//             memberViews
-//             memberComments
-//             memberRank
-//             memberWarnings
-//             memberBlocks
-//             deletedAt
-//             createdAt
-//             updatedAt
-//             accessToken
-//             meLiked {
-//                 memberId
-//                 likeRefId
-//                 myFavorite
-//             }
-//         }
-//         metaCounter {
-//             total
-//         }
-//     }
-// }
-// `;
+export const GET_SELLER = gql`
+	query GetSellers($input: SellersInquiry!) {
+		getSellers(input: $input) {
+			list {
+				_id
+				memberType
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFullName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProducts
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+				meFollowed {
+					followingId
+					followerId
+					myFollowing
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
 
 export const GET_MEMBER = gql(`
 	query GetMember($input: String!) {
@@ -236,7 +241,7 @@ export const GET_PRODUCTS = gql`
 	}
 `;
 
-// export const GET_STORE_PRODUCTS = gql`
+// export const ORE_PRODUCTS = gql`
 // 	query GetStoreProducts($input: StoreProductsInquiry!) {
 // 		getStoreProducts(input: $input) {
 // 			list {
