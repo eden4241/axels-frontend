@@ -5,13 +5,11 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import { Product } from '../../types/product/product';
 import { T } from '../../types/common';
 import { useMutation, useQuery } from '@apollo/client';
-import { CREATE_NOTIFICATION, LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
 import ProductCard from '../product/ProductCard';
-import { NotificationGroup, NotificationType } from '../../enums/notification.enum';
-import { CreateNotificationInput } from '../../types/notification/notification';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
@@ -21,7 +19,6 @@ const MyFavorites: NextPage = () => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	const {
 		loading: getFavoritesLoading,
@@ -37,34 +34,15 @@ const MyFavorites: NextPage = () => {
 		},
 	});
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-
 	const likeProductHandler = async (e: T, user: any, id: string) => {
 		try {
-			e.stopPropagation();
 			if (!id) return;
-			if (!user.id) throw new Error(Messages.error2);
-			await likeTargetProduct({
-				variables: { input: id },
-			});
+			if (!user._id) throw new Error(Messages.error2);
+
+			await likeTargetProduct({ variables: { input: id } });
 			await getFavoritesRefetch({ input: searchFavorites });
-			if (!user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.PRODUCT,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-					authorId: user._id,
-				});
-			}
 		} catch (err: any) {
-			console.error('Error liking property:', err.message);
+			console.log('ERROR, likeProductHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

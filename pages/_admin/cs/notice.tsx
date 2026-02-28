@@ -17,9 +17,6 @@ import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 import { NoticeInquiry } from '../../../libs/types/notice/notice.input';
 import { T } from '../../../libs/types/common';
 import { Direction } from '../../../libs/enums/common.enum';
-import { CREATE_NOTIFICATION } from '../../../apollo/user/mutation';
-import { NotificationGroup, NotificationType } from '../../../libs/enums/notification.enum';
-import { CreateNotificationInput } from '../../../libs/types/notification/notification';
 
 const AdminNotice: React.FC = () => {
   const router = useRouter();
@@ -47,7 +44,6 @@ const AdminNotice: React.FC = () => {
 
   const [createNotice] = useMutation(CREATE_NOTICE);
   const [updateNotice] = useMutation(UPDATE_NOTICE);
-  const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 
 
@@ -105,14 +101,6 @@ const AdminNotice: React.FC = () => {
     setNoticeInquiry(updatedInquiry);
   };
 
-    const notifyMember = async (input: CreateNotificationInput) => {
-      try {
-        await createNotification({ variables: { input } });
-      } catch (e) {
-        console.warn('notifyMember failed', e);
-      }
-    };
-
   const handleSubmitNotice = async () => {
     const { noticeTitle, noticeContent } = formData;
     if (!noticeTitle.trim() || !noticeContent.trim() || !user?._id) {
@@ -147,13 +135,6 @@ const AdminNotice: React.FC = () => {
       setShowForm(false);
       router.replace('/_admin/cs/notice');
       await refetch({ input: noticeInquiry });
-      void notifyMember({
-                notificationType: NotificationType.NOTICE,
-                notificationGroup: NotificationGroup.NOTICE,
-                notificationTitle: 'New like',
-                notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-                authorId: user._id,
-              });
     } catch (err) {
       console.error('Submit failed:', err);
       alert('Failed to submit notice.');

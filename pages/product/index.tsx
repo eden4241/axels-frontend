@@ -26,13 +26,11 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { GET_PRODUCTS } from '../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
 import ProductCard from '../../libs/components/product/ProductCard';
-import { CREATE_NOTIFICATION, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
+import { LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { T } from '../../libs/types/common';
 import { userVar } from '../../apollo/store';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
-import { CreateNotificationInput } from '../../libs/types/notification/notification';
-import { NotificationGroup, NotificationType } from '../../libs/enums/notification.enum';
-import { i18n, useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {

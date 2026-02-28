@@ -293,7 +293,7 @@ const Filter = (props: FilterType) => {
 			</div>
 
 			{/* OPTIONS (Limited, Barter) */}
-			<div className={`filter-box ${openFilter === 'options' ? 'active' : ''}`} onClick={() => toggleFilter('options')}>
+			{/* <div className={`filter-box ${openFilter === 'options' ? 'active' : ''}`} onClick={() => toggleFilter('options')}>
 				<Typography className="title">Options</Typography>
 				<KeyboardArrowDownRoundedIcon className="dropdown-icon" />
 				{openFilter === 'options' && (
@@ -319,7 +319,7 @@ const Filter = (props: FilterType) => {
 						</div>
 					</div>
 				)}
-			</div>
+			</div> */}
 
 			{/* PRICE RANGE */}
 			<div className={`filter-box ${openFilter === 'price' ? 'active' : ''}`}>

@@ -1,9 +1,4 @@
 import { gql } from '@apollo/client';
-import {
-	CreateNotificationInput,
-	Notifications,
-	NotificationsInquiry,
-} from '../../libs/types/notification/notification';
 
 /**************************
  *         MEMBER         *
@@ -416,83 +411,18 @@ export const UNSUBSCRIBE = gql`
 // 	}
 // `;
 
-// ---------- Fragments ----------
-export const NOTIFICATION_FIELDS = gql`
-	fragment NotificationFields on Notification {
-		_id
-		notificationType
-		notificationGroup
-		notificationStatus
-		notificationTitle
-		notificationDesc
-		authorId
-		productId
-		articleId
-		commentId
-		refId
-		createdAt
-		updatedAt
-	}
-`;
 
 // ---------- Queries ----------
-export const GET_NOTIFICATIONS = gql`
-	${NOTIFICATION_FIELDS}
-	query GetNotifications($input: NotificationsInquiry!) {
-		getNotifications(input: $input) {
-			total
-			list {
-				...NotificationFields
-			}
-		}
-	}
-`;
+
 
 // ---------- Mutations ----------
-export const CREATE_NOTIFICATION = gql`
-	mutation CreateNotification($input: CreateNotificationInput!) {
-		createNotification(input: $input) {
-			_id
-		}
-	}
-`;
 
-export const MARK_NOTIFICATION_READ = gql`
-	${NOTIFICATION_FIELDS}
-	mutation MarkNotificationRead($notificationId: String!) {
-		markNotificationRead(notificationId: $notificationId) {
-			...NotificationFields
-		}
-	}
-`;
 
-export const MARK_ALL_NOTIFICATIONS_READ = gql`
-	mutation MarkAllNotificationsRead {
-		markAllNotificationsRead
-	}
-`;
 
-export const DELETE_NOTIFICATION = gql`
-	mutation DeleteNotificationById($id: String!) {
-		deleteNotificationById(id: $id) {
-			success
-			message
-		}
-	}
-`;
 
-export type DeleteNotificationVars = { id: string };
-export type DeleteNotificationData = { deleteNotificationById: { success: boolean; message: string } };
+
+
+
 
 // ---------- TS helper types ----------
-export type GetNotificationsData = { getNotifications: Notifications };
-export type GetNotificationsVars = { input: NotificationsInquiry };
 
-export type CreateNotificationData = { createNotification: { _id: string } };
-export type CreateNotificationVars = { input: CreateNotificationInput };
-
-export type MarkNotificationReadData = { markNotificationRead: Notification };
-export type MarkNotificationReadVars = { notificationId: string };
-
-export type MarkAllNotificationsReadData = { markAllNotificationsRead: boolean };
-export type MarkAllNotificationsReadVars = Record<string, never>;

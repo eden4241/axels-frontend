@@ -29,7 +29,6 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { T } from '../../libs/types/common';
 import {
 	CREATE_COMMENT,
-	CREATE_NOTIFICATION,
 	LIKE_TARGET_PRODUCT,
 	REMOVE_COMMENT,
 	UPDATE_COMMENT,
@@ -406,7 +405,7 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 							)}
 
 							<Box className="detail-weight">
-								<span>Weight: {product?.productWeightUnit || 'N/A'}</span>
+								{/* <span>Weight: {product?.productWeightUnit || 'N/A'}</span> */}
 							</Box>
 
 							<Box className="detail-other-info">

@@ -16,15 +16,13 @@ import { ProductsInquiry } from '../../libs/types/product/product.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
-import { REACT_APP_API_URL } from '../../libs/config';
+import { Messages, REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GET_COMMENTS, GET_MEMBER, GET_PRODUCTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { CREATE_COMMENT, CREATE_NOTIFICATION, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { Message } from '../../libs/enums/common.enum';
-import { CreateNotificationInput } from '../../libs/types/notification/notification';
-import { NotificationType, NotificationGroup } from '../../libs/enums/notification.enum';
-import { i18n, useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -53,7 +51,6 @@ const SellerDetail: NextPage = ({ initialInput, initialComment, ...props }: any)
 
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 	const [createComment] = useMutation(CREATE_COMMENT);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	const {
 		loading: getSellerLoading,
@@ -170,28 +167,13 @@ const SellerDetail: NextPage = ({ initialInput, initialComment, ...props }: any)
 		setCommentInquiry((prev) => ({ ...prev, page: value }));
 	};
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-
 	const createCommentHandler = async () => {
 		try {
-			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
-			if (user._id === mbId) throw new Error('Cannot write a review to yourself');
+			if (!user?._id) throw new Error(Messages.error2);
+			if (user._id === seller?._id) throw new Error('Cannot comment on your own profile!');
 			await createComment({ variables: { input: insertCommentData } });
-			setInsertCommentData((prev) => ({ ...prev, commentContent: '' }));
-			getCommentsRefetch({ variables: { input: commentInquiry } });
-			void notifyMember({
-				notificationType: NotificationType.COMMENT,
-				notificationGroup: NotificationGroup.COMMENT,
-				notificationTitle: 'New comment',
-				notificationDesc: `${user.memberNick ?? 'Someone'} commented on your product.`,
-				authorId: user._id,
-			});
+			setInsertCommentData({ ...insertCommentData, commentContent: '' });
+			await getCommentsRefetch({ input: commentInquiry });
 		} catch (err: any) {
 			console.log('ERROR, createCommentHandler:', err.message);
 			await sweetMixinErrorAlert(err.message).then();
@@ -200,30 +182,16 @@ const SellerDetail: NextPage = ({ initialInput, initialComment, ...props }: any)
 
 	const likeProductHandler = async (user: T, id: string) => {
 		try {
-			const user = userVar();
-			if (!user || !user._id) {
-				let message = '';
-				if (i18n?.language === 'kr') message = '좋아요를 누르려면 로그인해야 합니다.';
-				else if (i18n?.language === 'uz') message = 'Tizimga login boling';
-				else message = 'You must be logged in to like';
-				await sweetMixinErrorAlert(message, 2000, () => router.push('/account/join'));
-				return;
-			}
 			if (!id) return;
+			if (!user?._id) throw new Error(Messages.error2);
 			await likeTargetProduct({ variables: { input: id } });
 			await getProductsRefetch({ input: searchFilter });
-			if (user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.PRODUCT,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-					authorId: user._id,
-				});
-			}
+			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.error('ERROR on likeProductHandler', err.message);
+			console.log('ERROR, likeProductHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
 		}
+			
 	};
 
 	if (device === 'mobile') {

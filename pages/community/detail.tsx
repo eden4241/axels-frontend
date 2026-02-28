@@ -24,7 +24,6 @@ import { BoardArticle } from '../../libs/types/board-article/board-article';
 import { GET_BOARD_ARTICLE, GET_COMMENTS } from '../../apollo/user/query';
 import {
 	CREATE_COMMENT,
-	CREATE_NOTIFICATION,
 	LIKE_TARGET_BOARD_ARTICLE,
 	UPDATE_COMMENT,
 } from '../../apollo/user/mutation';
@@ -36,8 +35,6 @@ import {
 	sweetTopSmallSuccessAlert,
 } from '../../libs/sweetAlert';
 import { Messages } from '../../libs/config';
-import { CreateNotificationInput } from '../../libs/types/notification/notification';
-import { NotificationGroup, NotificationType } from '../../libs/enums/notification.enum';
 
 const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
 
@@ -78,7 +75,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [likeTargetArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [updateComment] = useMutation(UPDATE_COMMENT);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	const {
 		loading: getArticleLoading,
@@ -135,14 +131,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		);
 	};
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-
 	const createCommentHandler = async () => {
 		try {
 			if (!user?._id) throw new Error(Messages.error2);
@@ -163,13 +151,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			await getArticleRefetch({ input: articleId });
 			setComment('');
 			if (id !== user._id) {
-				void notifyMember({
-					notificationType: NotificationType.COMMENT,
-					notificationGroup: NotificationGroup.COMMENT,
-					notificationTitle: 'New comment',
-					notificationDesc: `${user.memberNick ?? 'Someone'} commented on your product.`,
-					authorId: user._id,
-				});
+				
 			}
 		} catch (error: any) {
 			await sweetMixinErrorAlert(error.message);
@@ -257,13 +239,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			await getArticleRefetch({ input: articleId });
 			await sweetTopSmallSuccessAlert('Success', 700);
 			if (id !== user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.PRODUCT,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-					authorId: user._id,
-				});
+				
 			}
 		} catch (err: any) {
 			console.log('ERROR, likeArticleHandler:', err.message);
@@ -274,7 +250,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY DETAIL PAGE MOBILE</div>;
+		return <>COMMUNITY DETAIL PAGE MOBILE</>;
 	} else {
 		return (
 			<div id="community-detail-page">

@@ -178,16 +178,16 @@ const ProductBigCard = ({
               <img src="/img/icons/material-icon.png" alt="Material" />
               <span>{product.productMaterial}</span>
             </div>
-            <div className="meta-item">
+            {/* <div className="meta-item">
               <img src="/img/icons/weight-icon.png" alt="Weight" />
               <span>{product.productWeightUnit}</span>
-            </div>
+            </div> */}
           </div>
 
-          <div className="types">
+          {/* <div className="types">
             <span className={product.productLimited ? '' : 'disabled-type'}>Limited</span>
             <span className={product.productBarter ? '' : 'disabled-type'}>Barter</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

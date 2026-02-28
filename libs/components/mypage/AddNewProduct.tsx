@@ -19,14 +19,10 @@ type InsertState = {
 	productType?: ProductType | '';
 	productBrand?: ProductBrand | '';
 	productAddress?: string;
-	// productBarter?: boolean;
-	// productLimited?: boolean;
 	productMaterial?: ProductMaterial | '';
 	productSize?: ProductSize | '';
-	// productWeightUnit?: number; // can be 0
 	productDesc?: string;
 	productImages: string[];
-	// productStock?: number;
 	productOrigin?: string;
 	productColor?: string;
 };
@@ -67,17 +63,13 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
 				_id: p._id, // needed for update payload
 				productTitle: p.productTitle ?? '',
 				productPrice: p.productPrice ?? 0,
-				productWeightUnit: typeof p.productWeightUnit === 'number' ? p.productWeightUnit : 0,
 				productType: p.productType ?? '',
 				productBrand: p.productBrand ?? '',
 				productOrigin: p.productOrigin ?? '',
 				productAddress: p.productAddress ?? '',
-				productBarter: !!p.productBarter,
-				productLimited: !!p.productLimited,
 				productMaterial: p.productMaterial ?? '',
 				productSize: p.productSize ?? '',
 				productColor: p.productColor ?? '',
-				productStock: typeof p.productStock === 'number' ? p.productStock : 0,
 				productDesc: p.productDesc ?? '',
 				productImages: Array.isArray(p.productImages) ? p.productImages : [],
 			}));
@@ -166,14 +158,10 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
 			productType: s.productType as ProductType,
 			productBrand: s.productBrand as ProductBrand,
 			productAddress: s.productAddress || undefined,
-			// productBarter: !!s.productBarter,
-			// productLimited: !!s.productLimited,
 			productMaterial: s.productMaterial as ProductMaterial,
 			productSize: s.productSize as ProductSize,
-			// productWeightUnit: typeof s.productWeightUnit === 'number' ? s.productWeightUnit : undefined,
 			productDesc: (s.productDesc || '').trim() || undefined,
 			productImages: s.productImages,
-			// productStock: typeof s.productStock === 'number' ? s.productStock : 0,
 			productOrigin: s.productOrigin || undefined,
 			productColor: s.productColor || undefined,
 		};
@@ -187,14 +175,10 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
 			productType: s.productType || undefined,
 			productBrand: s.productBrand || undefined,
 			productAddress: s.productAddress || undefined,
-			// productBarter: s.productBarter,
-			// productLimited: s.productLimited,
 			productMaterial: s.productMaterial || undefined,
 			productSize: s.productSize || undefined,
-			// productWeightUnit: typeof s.productWeightUnit === 'number' ? s.productWeightUnit : undefined,
 			productDesc: (s.productDesc || '').trim() || undefined,
 			productImages: s.productImages,
-			// productStock: typeof s.productStock === 'number' ? s.productStock : undefined,
 			productOrigin: s.productOrigin || undefined,
 			productColor: s.productColor || undefined,
 		};
@@ -512,14 +496,10 @@ AddNewProduct.defaultProps = {
 		productType: '', // keep empty until user selects a valid enum
 		productBrand: '',
 		productAddress: '',
-		productBarter: false,
-		productLimited: false,
 		productMaterial: '',
 		productSize: '',
-		productWeightUnit: 0, // 0 is valid
 		productDesc: '',
 		productImages: [],
-		productStock: 0,
 		productOrigin: '',
 		productColor: '',
 	} as InsertState,

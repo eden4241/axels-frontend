@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { NOTIFICATION_FIELDS } from './mutation';
 
 /**************************
  *         MEMBER         *
@@ -736,14 +735,4 @@ export const GET_CONTACTS = gql`
 `;
 
 // ---------- Queries ----------
-export const GET_NOTIFICATIONS = gql`
-	${NOTIFICATION_FIELDS}
-	query GetNotifications($input: NotificationsInquiry!) {
-		getNotifications(input: $input) {
-			total
-			list {
-				...NotificationFields
-			}
-		}
-	}
-`;
+

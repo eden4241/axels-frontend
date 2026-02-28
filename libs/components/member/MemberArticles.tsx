@@ -7,14 +7,11 @@ import CommunityCard from '../common/CommunityCard';
 import { T } from '../../types/common';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { BoardArticlesInquiry } from '../../types/board-article/board-article.input';
-import { CREATE_NOTIFICATION, LIKE_TARGET_BOARD_ARTICLE } from '../../../apollo/user/mutation';
-import { DocumentNode } from 'graphql';
+import { LIKE_TARGET_BOARD_ARTICLE } from '../../../apollo/user/mutation';
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
 import { Messages } from '../../config';
-import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
-import { CreateNotificationInput } from '../../types/notification/notification';
-import { NotificationGroup, NotificationType } from '../../enums/notification.enum';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -26,7 +23,6 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	const {
 		loading: boardArticlesLoading,
@@ -53,40 +49,21 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 		setSearchFilter({ ...searchFilter, page: value });
 	};
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-	``;
+	
+	
 	const likeArticleHandler = async (e: T, user: any, id: string) => {
 		try {
 			e.stopPropagation();
-			if (!id || id.length !== 24) {
-				console.error('Invalid Article ID:', id);
-				return;
-			}
-			if (!user?._id) throw new Error(Messages.error2);
+			if (!id) return;
+			if (!user._id) throw new Error(Messages.error2);
 
-			await likeTargetBoardArticle({
-				variables: {
-					input: id,
-				},
-			});
+			await likeTargetBoardArticle({ variables: { input: id } });
 			await boardArticlesRefetch({ input: searchFilter });
-			await sweetTopSmallSuccessAlert('Success! Article liked successfully!', 700);
-			void notifyMember({
-				notificationType: NotificationType.LIKE,
-				notificationGroup: NotificationGroup.ARTICLE,
-				notificationTitle: 'New like',
-				notificationDesc: `${user.memberNick ?? 'Someone'} liked your article.`,
-				authorId: user._id,
-			});
+
+			await sweetTopSmallSuccessAlert('success!', 800);
 		} catch (err: any) {
-			console.error('Error liking article:', err);
-			sweetErrorHandling(err).then();
+			console.log('ERROR, likeArticleHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 

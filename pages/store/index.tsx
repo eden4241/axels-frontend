@@ -9,13 +9,11 @@ import StoreCard from '../../libs/components/common/StoreCard';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
-import { CREATE_NOTIFICATION, LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_SELLER } from '../../apollo/user/query';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
-import { CreateNotificationInput } from '../../libs/types/notification/notification';
-import { NotificationGroup, NotificationType } from '../../libs/enums/notification.enum';
 import { i18n, useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -42,7 +40,6 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	const {
 		loading: getStoresLoading,
@@ -117,14 +114,6 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 		setCurrentPage(value);
 	};
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-
 	const likeMemberHandler = async (store: Member, id: string) => {
 		try {
 			const user = userVar();
@@ -149,15 +138,6 @@ const StoreList: NextPage = ({ initialInput, ...props }: any) => {
 
 			await likeTargetMember({ variables: { input: id } }); // Server update
 			await getStoresRefetch({ input: searchFilter }); // Refetch updated list
-			if (id !== user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.MEMBER,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-					authorId: user._id,
-				});
-			}
 		} catch (err: any) {
 			console.error('ERROR on likeMemberHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();

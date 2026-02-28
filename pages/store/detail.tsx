@@ -20,10 +20,8 @@ import { REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GET_COMMENTS, GET_MEMBER, GET_PRODUCTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { CREATE_COMMENT, CREATE_NOTIFICATION, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { Message } from '../../libs/enums/common.enum';
-import { CreateNotificationInput } from '../../libs/types/notification/notification';
-import { NotificationType, NotificationGroup } from '../../libs/enums/notification.enum';
 import { i18n, useTranslation } from 'next-i18next';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -53,7 +51,6 @@ const StoreDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 	const [createComment] = useMutation(CREATE_COMMENT);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	/** APOLLO REQUESTS **/
 	const {
@@ -189,14 +186,6 @@ const StoreDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}));
 	};
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-
 	const createCommentHandler = async () => {
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
@@ -204,13 +193,6 @@ const StoreDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			await createComment({ variables: { input: insertCommentData } });
 			setInsertCommentData((prev) => ({ ...prev, commentContent: '' }));
 			getCommentsRefetch({ variables: { input: commentInquiry } });
-			void notifyMember({
-				notificationType: NotificationType.COMMENT,
-				notificationGroup: NotificationGroup.COMMENT,
-				notificationTitle: 'New comment',
-				notificationDesc: `${user.memberNick ?? 'Someone'} commented on your product.`,
-				authorId: user._id,
-			});
 		} catch (err: any) {
 			console.log('ERROR, createCommentHandler:', err.message);
 			await sweetMixinErrorAlert(err.message).then();
@@ -240,15 +222,7 @@ const StoreDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 			if (!id) return;
 			await likeTargetProduct({ variables: { input: id } }); // Server update
 			await getProductsRefetch({ input: searchFilter });
-			if (!user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.PRODUCT,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-					authorId: user._id,
-				});
-			}
+			
 		} catch (err: any) {
 			console.error('ERROR on likeProductHandler', err.message);
 		}

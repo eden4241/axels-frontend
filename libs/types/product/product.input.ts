@@ -18,16 +18,12 @@ export interface ProductInput {
 	productSize: ProductSize;
 	productTitle: string;
 	productPrice: number;
-	// productStock: number;
-	productWeightUnit: number; // 0 - kg, 1 - g, 2 - l
 	productComments: number;
 	productRank: number;
 	productViews: number;
 	productLikes: number;
 	productImages: string[];
 	productDesc?: string;
-	productBarter?: boolean;
-	productLimited?: boolean;
 	memberId?: string;
 }
 

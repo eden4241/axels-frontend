@@ -29,16 +29,12 @@ export interface Product {
 	productSize: ProductSize;
 	productTitle: string;
 	productPrice: number;
-	// productStock: number;
 	productComments: number;
 	productRank: number;
 	productViews: number;
 	productLikes: number;
 	productImages: string[];
 	productDesc?: string;
-	productWeightUnit?: boolean;
-	productBarter?: boolean;
-	productLimited?: boolean;
 	memberId: string;
 	soldAt?: Date;
 	deletedAt?: Date;

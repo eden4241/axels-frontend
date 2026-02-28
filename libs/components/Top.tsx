@@ -32,7 +32,6 @@ import { CaretDown } from 'phosphor-react';
 
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import CartDrawer from './common/CartDrawer';
-// import NotificationBell from './notification/Notification';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -451,7 +450,6 @@ const Top = () => {
 									)}
 
 									<div className="lan-box">
-										{/* {user?._id && <NotificationBell />}{' '} */}
 										<Button
 											disableRipple
 											className="btn-lang"

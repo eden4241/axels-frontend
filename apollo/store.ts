@@ -83,7 +83,6 @@ export function rehydrateBasketForCurrentUser() {
 /* Apollo cache */
 export const cache = new InMemoryCache({
   typePolicies: {
-    Notification: { keyFields: ['_id'] },
   },
 });
 

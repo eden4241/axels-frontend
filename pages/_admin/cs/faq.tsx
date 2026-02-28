@@ -29,9 +29,6 @@ import { FaqCategory, FaqStatus } from '../../../libs/enums/faq.enum';
 import { CREATE_FAQ, DELETE_FAQ, UPDATE_FAQ } from '../../../apollo/admin/mutation';
 import { userVar } from '../../../apollo/store';
 import router from 'next/router';
-import { NotificationGroup, NotificationType } from '../../../libs/enums/notification.enum';
-import { CreateNotificationInput } from '../../../libs/types/notification/notification';
-import { CREATE_NOTIFICATION } from '../../../apollo/user/mutation';
 
 const FaqArticles: NextPage = () => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
@@ -52,7 +49,6 @@ const FaqArticles: NextPage = () => {
 	const [createFaq] = useMutation(CREATE_FAQ);
 	const [updateFaq] = useMutation(UPDATE_FAQ);
 	const [deleteFaq] = useMutation(DELETE_FAQ);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	const { refetch } = useQuery(GET_FAQS);
 	const user = useReactiveVar(userVar);
@@ -105,14 +101,6 @@ const FaqArticles: NextPage = () => {
 		setPage(0);
 	};
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-
 	const handleSubmitFaq = async () => {
 		const { question, answer, status, category } = formData;
 
@@ -157,13 +145,6 @@ const FaqArticles: NextPage = () => {
 			setShowForm(false);
 			router.replace('/_admin/cs/faq');
 			await refetch();
-			void notifyMember({
-				notificationType: NotificationType.NOTICE,
-				notificationGroup: NotificationGroup.NOTICE,
-				notificationTitle: 'New comment',
-				notificationDesc: `${user.memberNick ?? 'Someone'} commented on your product.`,
-				authorId: user._id,
-			});
 		} catch (err) {
 			console.error('FAQ submission failed:', err);
 			alert('Failed to submit FAQ.');

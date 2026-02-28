@@ -13,10 +13,8 @@ import MemberFollowings from '../../libs/components/member/MemberFollowings';
 import { userVar } from '../../apollo/store';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import MemberProducts from '../../libs/components/member/MemberProducts';
-import { SUBSCRIBE, UNSUBSCRIBE, LIKE_TARGET_MEMBER, CREATE_NOTIFICATION } from '../../apollo/user/mutation';
+import { SUBSCRIBE, UNSUBSCRIBE, LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
 import { Messages } from '../../libs/config';
-import { CreateNotificationInput } from '../../libs/types/notification/notification';
-import { NotificationGroup, NotificationType } from '../../libs/enums/notification.enum';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -34,7 +32,6 @@ const MemberPage: NextPage = () => {
 	const [subscribe] = useMutation(SUBSCRIBE);
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 	
 
 	/** LIFECYCLES **/
@@ -55,13 +52,6 @@ const MemberPage: NextPage = () => {
 	/** HANDLERS **/
 
 
-			const notifyMember = async (input: CreateNotificationInput) => {
-				try {
-					await createNotification({ variables: { input } });
-				} catch (e) {
-					console.warn('notifyMember failed', e);
-				}
-			};
 	const subscribeHandler = async (id: string, refetch: any, query: any) => {
 		try {
 			console.log('_id', id);
@@ -70,15 +60,7 @@ const MemberPage: NextPage = () => {
 			await subscribe({ variables: { input: id } });
 			await sweetTopSmallSuccessAlert('Followed', 800);
 									await refetch({ input: query });
-									if (id !== user._id) {
-										void notifyMember({
-										  notificationType: NotificationType.FOLLOW,
-										  notificationGroup: NotificationGroup.MEMBER,
-										  notificationTitle: 'New follow',
-										  notificationDesc: `${user.memberNick ?? 'Someone'} followed you.`,
-										  authorId: user._id,
-										});
-									  }
+									
 
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
@@ -113,15 +95,7 @@ const MemberPage: NextPage = () => {
 			await likeTargetMember({ variables: { input: id } });
 			await sweetTopSmallSuccessAlert('Liked successfully', 800);
 			await refetch({ input: query });
-			if (id !== user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.MEMBER,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your profile.`,
-					authorId: user._id,
-				});
-			}
+			
 		} catch (err: any) {
 			console.error('Error liking target member:', err);
 			sweetErrorHandling(err).then();
