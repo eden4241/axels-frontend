@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { Product } from '../../types/product/product';
+import { Product, Products } from '../../types/product/product';
 import { StoreProductsInquiry } from '../../types/product/product.input';
 import { T } from '../../types/common';
 import { ProductStatus } from '../../enums/product.enum';
@@ -36,8 +36,8 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			console.log('Data fetched:', data);
-			setStoreProducts(data?.getStoreProducts?.list); // Create a new array to force re-render
-			setTotal(data?.getStoreProducts?.metaCounter[0]?.total ?? 0);
+			setStoreProducts(data?.getSellerProducts?.list); // Create a new array to force re-render
+			setTotal(data?.getSellerProducts?.metaCounter[0]?.total ?? 0);
 		},
 	});
 

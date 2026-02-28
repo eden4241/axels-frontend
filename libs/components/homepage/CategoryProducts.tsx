@@ -28,7 +28,7 @@ const CategoryProducts = (props: CategoryProductsProps) => {
   const CATEGORY_KEYS = [
     'RING',
     'NECKLACE',
-    'EARRINGS',
+    'EARRING',
     'BRACELET',
     'DIAMOND',
     'GIFT',

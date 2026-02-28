@@ -1,7 +1,7 @@
 export enum ProductType {
 	RING = 'RING',
 	NECKLACE = 'NECKLACE',
-	EARRINGS = 'EARRINGS',
+	EARRING = 'EARRING',
 	BRACELET = 'BRACELET',
 	DIAMOND = 'DIAMOND',
 	GIFT = 'GIFT',
@@ -11,16 +11,18 @@ export enum ProductType {
 export enum ProductStatus {
 	AVAILABLE = 'AVAILABLE',
 	SOLD = 'SOLD',
-	DELETE = 'DELETE',
+	DELETE = 'DELETE'
 }
 
 export enum ProductBrand {
 	ROLLIAGE = 'ROLLIAGE',
-	HELEN = 'HELEN',
-	QKE_JEWELRY = 'QKE JEWELRY',
-	ROMAN_PAUL = 'ROMAN PAUL',
-	KS_SILVERWORKS = 'KS SILVERWORKS',
-	LOVE_EXECUTIVE = 'LOVE EXECUTIVE',
+	CARTIER = 'CARTIER',
+	BVLGARI = 'BVLGARI',
+	TIFFANY = 'TIFFANY',
+	VAANCLEEF = 'VAANCLEEF',
+	GRAFF = 'GRAFF',
+	HARRY_WINSTON = 'HARRY_WINSTON',
+	PANDORA = 'PANDORA',
 }
 
 export enum ProductMaterial {
