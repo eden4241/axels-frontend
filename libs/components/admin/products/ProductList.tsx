@@ -149,7 +149,7 @@ export const ProductPanelList = (props: ProductPanelListType) => {
 									<TableRow hover key={product?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 										<TableCell align="left">{product._id}</TableCell>
 										<TableCell align="left" className={'name'}>
-											{product.productStatus === ProductStatus.AVAILABLE ? (
+											{product.productStatus === ProductStatus.ACTIVE ? (
 												<Stack direction={'row'}>
 													<Link href={`/property/detail?id=${product?._id}`}>
 														<div>
@@ -188,7 +188,7 @@ export const ProductPanelList = (props: ProductPanelListType) => {
 												<Button className={'badge warning'}>{product.productStatus}</Button>
 											)}
 
-											{product.productStatus === ProductStatus.AVAILABLE && (
+											{product.productStatus === ProductStatus.ACTIVE && (
 												<>
 													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
 														{product.productStatus}

@@ -54,7 +54,7 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
 	} = useQuery(GET_PRODUCT, {
 		skip: !router.query.productId,
 		fetchPolicy: 'network-only',
-		variables: { id: router.query.productId }, // <-- change to { input: ... } if your schema expects it
+		variables: { input: router.query.productId as string },
 	});
 
 	/** LIFECYCLES **/

@@ -83,7 +83,7 @@ const AdminProducts: NextPage = ({ initialInquiry, ...props }: any) => {
 
 		switch (newValue) {
 			case 'ACTIVE':
-				setProductsInquiry({ ...productsInquiry, search: { productStatus: ProductStatus.AVAILABLE } });
+				setProductsInquiry({ ...productsInquiry, search: { productStatus: ProductStatus.ACTIVE } });
 				break;
 			case 'SOLD':
 				setProductsInquiry({ ...productsInquiry, search: { productStatus: ProductStatus.SOLD } });

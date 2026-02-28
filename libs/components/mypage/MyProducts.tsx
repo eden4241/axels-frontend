@@ -35,9 +35,8 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			console.log('Data fetched:', data);
-			setStoreProducts(data?.getSellerProducts?.list); // Create a new array to force re-render
-			setTotal(data?.getSellerProducts?.metaCounter[0]?.total ?? 0);
+			setStoreProducts(data?.getSellerProducts?.list ?? []);
+			setTotal(data?.getSellerProducts?.metaCounter?.[0]?.total ?? 0);
 		},
 	});
 
@@ -92,8 +91,8 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 				<Stack className="product-list-box">
 					<Stack className="tab-name-box">
 						<Typography
-							onClick={() => changeStatusHandler(ProductStatus.AVAILABLE)}
-							className={searchFilter.search.productStatus === 'AVAILABLE' ? 'active-tab-name' : 'tab-name'}
+							onClick={() => changeStatusHandler(ProductStatus.ACTIVE)}
+							className={searchFilter.search.productStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
 						>
 							On Sale
 						</Typography>
@@ -113,13 +112,13 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Action</Typography>
 						</Stack>
 
-						{storeProducts?.length === 0 ? (
+						{(storeProducts ?? []).length === 0 ? (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
 								<p>No product found!</p>
 							</div>
 						) : (
-							storeProducts.map((product: Product) => {
+							(storeProducts ?? []).map((product: Product) => {
 								return (
 									<ProductCard
 										product={product}
@@ -130,7 +129,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 							})
 						)}
 
-						{storeProducts.length !== 0 && (
+						{(storeProducts ?? []).length > 0 && (
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
 									<Pagination
@@ -159,7 +158,7 @@ MyProducts.defaultProps = {
 		limit: 5,
 		sort: 'createdAt',
 		search: {
-			productStatus: 'AVAILABLE',
+			productStatus: 'ACTIVE',
 		},
 	},
 };

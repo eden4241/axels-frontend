@@ -99,7 +99,7 @@ export const ProductCard = (props: ProductCardProps) => {
 							},
 						}}
 					>
-						{product.productStatus === 'AVAILABLE' && (
+						{product.productStatus === 'ACTIVE' && (
 							<>
 								<MenuItem
 									disableRipple
@@ -118,7 +118,7 @@ export const ProductCard = (props: ProductCardProps) => {
 				<Stack className="views-box">
 					<Typography className="views">{product.productViews.toLocaleString()}</Typography>
 				</Stack>
-				{!memberPage && product.productStatus === ProductStatus.AVAILABLE && (
+				{!memberPage && product.productStatus === ProductStatus.ACTIVE && (
 					<Stack className="action-box">
 						<IconButton className="icon-button" onClick={() => pushEditProduct(product._id)}>
 							<ModeIcon className="buttons" />
