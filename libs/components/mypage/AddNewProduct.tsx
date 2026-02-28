@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import {
-  ProductCategory,
-  ProductGender,
-  ProductLocation,
+  ProductBrand,
   ProductMaterial,
+  ProductSize,
+  ProductType,
 } from '../../enums/product.enum';
 import { REACT_APP_API_URL } from '../../config';
 import axios from 'axios';
@@ -21,17 +21,16 @@ type InsertState = {
   _id?: string; // only for update
   productTitle: string;
   productPrice: number;
-  productCategory?: ProductCategory | '';
-  productLocation?: ProductLocation | '';
+  productType?: ProductType | '';
+  productBrand?: ProductBrand | '';
   productAddress?: string;
   productBarter?: boolean;
   productLimited?: boolean;
   productMaterial?: ProductMaterial | '';
-  productGender?: ProductGender | '';
+  productSize?: ProductSize | '';
   productWeightUnit?: number; // can be 0
   productDesc?: string;
   productImages: string[];
-  productSize?: number;
   productStock?: number;
   productOrigin?: string;
   productColor?: string;
@@ -42,8 +41,8 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [insertProductData, setInsertProductData] = useState<InsertState>(initialValues);
-  const [productCategory] = useState<ProductCategory[]>(Object.values(ProductCategory));
-  const [productLocation] = useState<ProductLocation[]>(Object.values(ProductLocation));
+  const [productType] = useState<ProductType[]>(Object.values(ProductType));
+  const [productBrand] = useState<ProductBrand[]>(Object.values(ProductBrand));
   const token = getJwtToken();
   const user = useReactiveVar(userVar);
 
@@ -74,16 +73,15 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
         productTitle: p.productTitle ?? '',
         productPrice: p.productPrice ?? 0,
         productWeightUnit: typeof p.productWeightUnit === 'number' ? p.productWeightUnit : 0,
-        productCategory: p.productCategory ?? '',
-        productLocation: p.productLocation ?? '',
+        productType: p.productType ?? '',
+        productBrand: p.productBrand ?? '',
         productOrigin: p.productOrigin ?? '',
         productAddress: p.productAddress ?? '',
         productBarter: !!p.productBarter,
         productLimited: !!p.productLimited,
         productMaterial: p.productMaterial ?? '',
-        productGender: p.productGender ?? '',
+        productSize: p.productSize ?? '',
         productColor: p.productColor ?? '',
-        productSize: typeof p.productSize === 'number' ? p.productSize : 0,
         productStock: typeof p.productStock === 'number' ? p.productStock : 0,
         productDesc: p.productDesc ?? '',
         productImages: Array.isArray(p.productImages) ? p.productImages : [],
@@ -149,10 +147,10 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
     // Backend: address/desc are optional; enums must be set to valid enum (not '')
     const titleOk = !!insertProductData.productTitle.trim();
     const priceOk = Number.isFinite(insertProductData.productPrice) && insertProductData.productPrice >= 0;
-    const catOk = insertProductData.productCategory !== undefined && insertProductData.productCategory !== null;
-    const locOk = !!insertProductData.productLocation && Object.values(ProductLocation).includes(insertProductData.productLocation as ProductLocation);
+    const catOk = insertProductData.productType !== undefined && insertProductData.productType !== null;
+    const locOk = !!insertProductData.productBrand && Object.values(ProductBrand).includes(insertProductData.productBrand as ProductBrand);
     const materialOk = !!insertProductData.productMaterial && Object.values(ProductMaterial).includes(insertProductData.productMaterial as ProductMaterial);
-    const genderOk = !!insertProductData.productGender && Object.values(ProductGender).includes(insertProductData.productGender as ProductGender);
+    const genderOk = !!insertProductData.productSize && Object.values(ProductSize).includes(insertProductData.productSize as ProductSize);
     const stockOk = Number.isFinite(insertProductData.productStock ?? 0) && (insertProductData.productStock ?? 0) >= 0;
     const imgsOk = (insertProductData.productImages?.length ?? 0) > 0;
 
@@ -164,17 +162,16 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
     return {
       productTitle: s.productTitle,
       productPrice: s.productPrice,
-      productCategory: s.productCategory as ProductCategory,
-      productLocation: s.productLocation as ProductLocation,
+      productType: s.productType as ProductType,
+      productBrand: s.productBrand as ProductBrand,
       productAddress: s.productAddress || undefined,
       productBarter: !!s.productBarter,
       productLimited: !!s.productLimited,
       productMaterial: s.productMaterial as ProductMaterial,
-      productGender: s.productGender as ProductGender,
+      productSize: s.productSize as ProductSize,
       productWeightUnit: typeof s.productWeightUnit === 'number' ? s.productWeightUnit : undefined,
       productDesc: (s.productDesc || '').trim() || undefined,
       productImages: s.productImages,
-      productSize: typeof s.productSize === 'number' ? s.productSize : undefined,
       productStock: typeof s.productStock === 'number' ? s.productStock : 0,
       productOrigin: s.productOrigin || undefined,
       productColor: s.productColor || undefined,
@@ -186,17 +183,16 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
       _id: s._id, // required by UpdateProductInput
       productTitle: s.productTitle,
       productPrice: s.productPrice,
-      productCategory: s.productCategory || undefined,
-      productLocation: s.productLocation || undefined,
+      productType: s.productType || undefined,
+      productBrand: s.productBrand || undefined,
       productAddress: s.productAddress || undefined,
       productBarter: s.productBarter,
       productLimited: s.productLimited,
       productMaterial: s.productMaterial || undefined,
-      productGender: s.productGender || undefined,
+      productSize: s.productSize || undefined,
       productWeightUnit: typeof s.productWeightUnit === 'number' ? s.productWeightUnit : undefined,
       productDesc: (s.productDesc || '').trim() || undefined,
       productImages: s.productImages,
-      productSize: typeof s.productSize === 'number' ? s.productSize : undefined,
       productStock: typeof s.productStock === 'number' ? s.productStock : undefined,
       productOrigin: s.productOrigin || undefined,
       productColor: s.productColor || undefined,
@@ -281,20 +277,20 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
                 <Typography className="title">Select Type</Typography>
                 <select
                   className={'select-description'}
-                  value={insertProductData.productCategory || 'select'}
+                  value={insertProductData.productType || 'select'}
                   onChange={({ target: { value } }) =>
                     setInsertProductData((p) => ({
                       ...p,
-                      productCategory: value === 'select' ? '' : (value as ProductCategory),
+                      productType: value === 'select' ? '' : (value as ProductType),
                     }))
                   }
                 >
                   <option disabled value={'select'}>
                     Select
                   </option>
-                  {productCategory.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
+                  {productType.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
                     </option>
                   ))}
                 </select>
@@ -305,23 +301,23 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
 
             <Stack className="config-row">
               <Stack className="price-year-after-price">
-                <Typography className="title">Select Location</Typography>
+                <Typography className="title">Select Brand</Typography>
                 <select
                   className={'select-description'}
-                  value={insertProductData.productLocation || 'select'}
+                  value={insertProductData.productBrand || 'select'}
                   onChange={({ target: { value } }) =>
                     setInsertProductData((p) => ({
                       ...p,
-                      productLocation: value === 'select' ? '' : (value as ProductLocation),
+                      productBrand: value === 'select' ? '' : (value as ProductBrand),
                     }))
                   }
                 >
                   <option disabled value={'select'}>
                     Select
                   </option>
-                  {productLocation.map((location) => (
-                    <option key={location} value={location}>
-                      {location}
+                  {productBrand.map((brand) => (
+                    <option key={brand} value={brand}>
+                      {brand}
                     </option>
                   ))}
                 </select>
@@ -407,21 +403,21 @@ const AddNewProduct = ({ initialValues, ...props }: any) => {
                 <img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
               </Stack>
               <Stack className="price-year-after-price">
-                <Typography className="title">Gender</Typography>
+                <Typography className="title">Size</Typography>
                 <select
                   className={'select-description'}
-                  value={insertProductData.productGender || 'select'}
+                  value={insertProductData.productSize || 'select'}
                   onChange={({ target: { value } }) =>
                     setInsertProductData((p) => ({
                       ...p,
-                      productGender: value === 'select' ? '' : (value as ProductGender),
+                      productSize: value === 'select' ? '' : (value as ProductSize),
                     }))
                   }
                 >
                   <option disabled value={'select'}>
                     Select
                   </option>
-                  {Object.values(ProductGender).map((g) => (
+                  {Object.values(ProductSize).map((g) => (
                     <option key={g} value={g}>
                       {g}
                     </option>
@@ -521,17 +517,16 @@ AddNewProduct.defaultProps = {
   initialValues: {
     productTitle: '',
     productPrice: 0,
-    productCategory: '', // keep empty until user selects a valid enum
-    productLocation: '',
+    productType: '', // keep empty until user selects a valid enum
+    productBrand: '',
     productAddress: '',
     productBarter: false,
     productLimited: false,
     productMaterial: '',
-    productGender: '',
+    productSize: '',
     productWeightUnit: 0, // 0 is valid
     productDesc: '',
     productImages: [],
-    productSize: 0,
     productStock: 0,
     productOrigin: '',
     productColor: '',

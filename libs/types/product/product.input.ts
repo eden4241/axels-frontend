@@ -1,24 +1,23 @@
-import { productWeight } from './../../config';
+// import { productWeight } from './../../config'
 import { Direction } from '../../enums/common.enum';
 import {
-	ProductCategory,
-	ProductGender,
-	ProductLocation,
+	ProductBrand,
 	ProductMaterial,
+	ProductSize,
 	ProductStatus,
+	ProductType,
 } from '../../enums/product.enum';
 
 export interface ProductInput {
-	productCategory: ProductCategory;
-	productLocation: ProductLocation;
+	productType: ProductType;
+	productBrand: ProductBrand;
 	productOrigin: string;
 	productAddress: string;
 	productColor?: string;
 	productMaterial: ProductMaterial;
-	productGender: ProductGender;
+	productSize: ProductSize;
 	productTitle: string;
 	productPrice: number;
-	productSize: number;
 	productStock: number;
 	productWeightUnit: number; // 0 - kg, 1 - g, 2 - l
 	productComments: number;
@@ -34,10 +33,10 @@ export interface ProductInput {
 
 interface PISearch {
 	memberId?: string;
-	locationList?: ProductLocation[];
-	categoryList?: ProductCategory[];
+	brandList?: ProductBrand[];
+	typeList?: ProductType[];
 	materialList?: ProductMaterial[];
-	genderList?: ProductGender[];
+	sizeList?: ProductSize[];
 	colorList?: string[];              // ✅ Optional, if you use it
 	weightList?: number[];
 	options?: string[];
@@ -69,7 +68,7 @@ export interface StoreProductsInquiry {
 
 interface ALPISearch {
 	productStatus?: ProductStatus;
-	productLocation?: ProductLocation[];
+	productBrand?: ProductBrand[];
 }
 
 export interface AllProductsInquiry {

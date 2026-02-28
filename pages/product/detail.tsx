@@ -34,12 +34,10 @@ import {
 	REMOVE_COMMENT,
 	UPDATE_COMMENT,
 } from '../../apollo/user/mutation';
-import { sweetErrorHandling, sweetMixinErrorAlert } from '../../libs/sweetAlert';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { ProductsInquiry } from '../../libs/types/product/product.input';
-import { ProductCategory } from '../../libs/enums/product.enum';
-import { NotificationGroup, NotificationType } from '../../libs/enums/notification.enum';
-import { CreateNotificationInput } from '../../libs/types/notification/notification';
-import { i18n, useTranslation } from 'next-i18next';
+import { ProductType } from '../../libs/enums/product.enum';
+import { useTranslation } from 'next-i18next';
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -113,7 +111,7 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 				sort: 'createdAt',
 				direction: Direction.DESC,
 				search: {
-					locationList: product?.productLocation ? [product?.productLocation] : [],
+					brandList: product?.productBrand ? [product?.productBrand] : [],
 				},
 			},
 		},
@@ -207,53 +205,34 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 		setTimeout(() => setGlow(false), 600);
 	};
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
-
 	const likeProductHandler = async (user: T, id: string) => {
 		try {
-			const user = userVar();
-			if (!user || !user._id) {
-				let message = '';
-				if (i18n?.language === 'kr') {
-					message = '좋아요를 누르려면 로그인해야 합니다.';
-				} else if (i18n?.language === 'uz') {
-					message = 'Tizimga login boling';
-				} else {
-					message = 'You must be logged in to like';
-				}
-
-				await sweetMixinErrorAlert(message, 2000, () => {
-					router.push('/account/join'); // navigate AFTER alert closes
-				});
-
-				return;
-			}
-
 			if (!id) return;
-			await likeTargetProduct({ variables: { input: id } }); // Server update
-			await getProductsRefetch({ input: searchFilter });
-			if (!user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.PRODUCT,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-					authorId: user._id,
-				});
-			}
+			if (!user) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await likeTargetProduct({ variables: { input: id } });
+			await getProductRefetch({ input: id });
+			await getProductsRefetch({
+				input: {
+					page: 1,
+					limit: 4,
+					sort: 'createdAt',
+					direction: Direction.DESC,
+					search: {
+						brandList: [product?.productBrand],
+					},
+				},
+			});
+
+			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.error('ERROR on likeProductHandler', err.message);
+			console.log('ERROR, likePropertyHandler:', err);
+			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 
 	const isRingCategory =
-		product?.productCategory === ProductCategory.RING || product?.productCategory === ProductCategory.WEDDING_RING;
+		product?.productType === ProductType.RING || product?.productType === ProductType.WEDDING_RING;
 
 	const selectedWeight = isRingCategory ? productWeight[ringSize.indexOf(selectedRingSize)] : undefined;
 
@@ -265,13 +244,6 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 			await createComment({ variables: { input: insertCommentData } });
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 			await getCommentsRefetch({ input: commentInquiry });
-			void notifyMember({
-				notificationType: NotificationType.COMMENT,
-				notificationGroup: NotificationGroup.COMMENT,
-				notificationTitle: 'New comment',
-				notificationDesc: `${user.memberNick ?? 'Someone'} commented on your product.`,
-				authorId: user._id,
-			});
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
@@ -402,7 +374,7 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 								<span>KRW{formatterStr(product?.productPrice)}</span>
 							</Box>
 							<Box className="detail-location">
-								<span>{product?.productLocation}</span>
+								<span>{product?.productBrand}</span>
 							</Box>
 							<Box className="detail-description">
 								<span>{product?.productDesc}</span>
@@ -441,7 +413,7 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 								</div>
 								<div className="info-item">
 									<img src="/img/icons/gender.png" alt="" />
-									{product?.productGender || 'N/A'}{' '}
+									{product?.productSize || 'N/A'}{' '}
 								</div>
 								<div className="info-item-options">
 									<img src="/img/icons/options.png" alt="" />

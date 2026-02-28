@@ -29,7 +29,7 @@ import ProductCard from '../../libs/components/product/ProductCard';
 import { CREATE_NOTIFICATION, LIKE_TARGET_PRODUCT } from '../../apollo/user/mutation';
 import { T } from '../../libs/types/common';
 import { userVar } from '../../apollo/store';
-import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { CreateNotificationInput } from '../../libs/types/notification/notification';
 import { NotificationGroup, NotificationType } from '../../libs/enums/notification.enum';
 import { i18n, useTranslation } from 'next-i18next';
@@ -57,7 +57,7 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
+
 
 	const {
 		loading: getProductsLoading,
@@ -74,48 +74,19 @@ const ProductList: NextPage = ({ initialInput, ...props }: any) => {
 		},
 	});
 
-	const notifyMember = async (input: CreateNotificationInput) => {
-		try {
-			await createNotification({ variables: { input } });
-		} catch (e) {
-			console.warn('notifyMember failed', e);
-		}
-	};
 
 	const likeProductHandler = async (user: T, id: string) => {
 		try {
-			const user = userVar();
-			if (!user || !user._id) {
-				let message = '';
-				if (i18n?.language === 'kr') {
-					message = '좋아요를 누르려면 로그인해야 합니다.';
-				} else if (i18n?.language === 'uz') {
-					message = 'Tizimga login boling';
-				} else {
-					message = 'You must be logged in to like';
-				}
-
-				await sweetMixinErrorAlert(message, 2000, () => {
-					router.push('/account/join'); // navigate AFTER alert closes
-				});
-
-				return;
-			}
-
 			if (!id) return;
-			await likeTargetProduct({ variables: { input: id } }); // Server update
-			await getProductsRefetch({ input: searchFilter });
-			if (id !== user._id) {
-				void notifyMember({
-					notificationType: NotificationType.LIKE,
-					notificationGroup: NotificationGroup.PRODUCT,
-					notificationTitle: 'New like',
-					notificationDesc: `${user.memberNick ?? 'Someone'} liked your product.`,
-					authorId: user._id,
-				});
-			}
+			if (!user) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await likeTargetProduct({ variables: { input: id } });
+			await getProductsRefetch({ input: initialInput });
+
+			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.error('ERROR on likeProductHandler', err.message);
+			console.log('ERROR, likePropertyHandler:', err);
+			sweetMixinErrorAlert(err.message).then();
 		}
 	};
 

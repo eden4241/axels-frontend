@@ -54,13 +54,17 @@ export const LOGIN = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
 			memberProducts
-			memberRank
+			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt

@@ -18,11 +18,14 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 			memberAddress
 			memberDesc
 			memberProducts
-			memberRank
 			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
 			memberWarnings
 			memberBlocks
 			deletedAt
@@ -38,26 +41,26 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
  *************************/
 
 export const UPDATE_PRODUCT_BY_ADMIN = gql`
-	mutation UpdateProductByAdmin($input: productUpdate!) {
+	mutation UpdateProductByAdmin($input: ProductUpdate!) {
 		updateProductByAdmin(input: $input) {
 			_id
-			productCategory
+			productType
 			productStatus
-			productLocation
-			productAddress
+			productMaterial
+			productBrand
+			productSize
 			productTitle
 			productPrice
-			productSize
-			productMaterial
-			productGender
 			productViews
 			productLikes
+			productComments
+			productRank
 			productImages
 			productDesc
-			productBarter
 			memberId
 			soldAt
 			deletedAt
+			constructedAt
 			createdAt
 			updatedAt
 		}
@@ -68,23 +71,23 @@ export const REMOVE_PRODUCT_BY_ADMIN = gql`
 	mutation RemoveProductByAdmin($input: String!) {
 		removeProductByAdmin(productId: $input) {
 			_id
-			prodductCategory 
+			productType
 			productStatus
-			productLocation
-			productAddress
+			productMaterial
+			productBrand
+			productSize
 			productTitle
 			productPrice
-			productSize
-			productMaterial
-			productGender
 			productViews
 			productLikes
+			productComments
+			productRank
 			productImages
 			productDesc
-			productBarter
 			memberId
 			soldAt
 			deletedAt
+			constructedAt
 			createdAt
 			updatedAt
 		}
@@ -106,6 +109,7 @@ export const UPDATE_BOARD_ARTICLE_BY_ADMIN = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
@@ -124,6 +128,7 @@ export const REMOVE_BOARD_ARTICLE_BY_ADMIN = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
@@ -155,57 +160,57 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
  *************************/
 
 export const CREATE_NOTICE = gql`
-  mutation CreateNotice($input: NoticeInput!) {
-    createNotice(input: $input) {
-      _id
-      noticeTitle
-      noticeContent
-      noticeStatus
-      memberId
-    }
-  }
+	mutation CreateNotice($input: NoticeInput!) {
+		createNotice(input: $input) {
+			_id
+			noticeTitle
+			noticeContent
+			noticeStatus
+			memberId
+		}
+	}
 `;
 
 export const UPDATE_NOTICE = gql`
-  mutation UpdateNotice($input: UpdateNoticeInput!) {
-    updateNotice(input: $input) {
-      _id
-      noticeTitle
-      noticeContent
-      noticeStatus
-      memberId
-      createdAt
-      updatedAt
-    }
-  }
+	mutation UpdateNotice($input: UpdateNoticeInput!) {
+		updateNotice(input: $input) {
+			_id
+			noticeTitle
+			noticeContent
+			noticeStatus
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const DELETE_NOTICE = gql`
-  mutation DeleteNotice($input: String!) {
-    deleteNotice(input: $input) {
-      _id
-      noticeStatus
-      noticeTitle
-      noticeContent
-      memberId
-      createdAt
-      updatedAt
-    }
-  }
+	mutation DeleteNotice($input: String!) {
+		deleteNotice(input: $input) {
+			_id
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const REMOVE_NOTICE_PERMANENTLY = gql`
-  mutation RemoveNoticePermanently($input: String!) {
-    removeNoticePermanently(input: $input) {
-      _id
-      noticeStatus
-      noticeTitle
-      noticeContent
-      memberId
-      createdAt
-      updatedAt
-    }
-  }
+	mutation RemoveNoticePermanently($input: String!) {
+		removeNoticePermanently(input: $input) {
+			_id
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 /**************************
@@ -213,36 +218,35 @@ export const REMOVE_NOTICE_PERMANENTLY = gql`
  *************************/
 
 export const CREATE_FAQ = gql`
-  mutation CreateFaq($input: FaqInput!) {
-    createFaq(input: $input) {
-      _id
-	  question
-	  answer
-	  status
-	  category
-	  createdAt
-	  updatedAt
-    }
-  }
+	mutation CreateFaq($input: FaqInput!) {
+		createFaq(input: $input) {
+			_id
+			question
+			answer
+			status
+			category
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const UPDATE_FAQ = gql`
-  mutation UpdateFaq($input: UpdateFaqInput!) {
-    updateFaq(input: $input) {
-      _id
-      question
-      answer
-      status
-      category
-      createdAt
-      updatedAt
-    }
-  }
+	mutation UpdateFaq($input: UpdateFaqInput!) {
+		updateFaq(input: $input) {
+			_id
+			question
+			answer
+			status
+			category
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const DELETE_FAQ = gql`
-  mutation DeleteFaq($id: String!) {
-    deleteFaq(id: $id)
-  }
+	mutation DeleteFaq($id: String!) {
+		deleteFaq(id: $id)
+	}
 `;
-

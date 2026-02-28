@@ -1,9 +1,9 @@
 import {
-	ProductCategory,
-	ProductGender,
-	ProductLocation,
+	ProductBrand,
 	ProductMaterial,
+	ProductSize,
 	ProductStatus,
+	ProductType,
 } from '../../enums/product.enum';
 import { Member } from '../member/member';
 
@@ -19,17 +19,16 @@ export interface TotalCounter {
 
 export interface Product {
 	_id: string;
-	productCategory: ProductCategory;
-	productLocation: ProductLocation;
+	productType: ProductType;
+	productBrand: ProductBrand;
 	productAddress: string;
 	productStatus: ProductStatus;
 	productOrigin: string;
 	productColor?: string;
 	productMaterial: ProductMaterial;
-	productGender: ProductGender;
+	productSize: ProductSize;
 	productTitle: string;
 	productPrice: number;
-	productSize: number;
 	productStock: number;
 	productComments: number;
 	productRank: number;

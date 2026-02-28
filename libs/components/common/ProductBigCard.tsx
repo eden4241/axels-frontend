@@ -123,9 +123,9 @@ const ProductBigCard = ({
         {product?.productImages?.[1] && (
           <img className="hover-img" src={image2} alt={product.productTitle} />
         )}
-        {product?.productCategory && (
+        {product?.productType && (
           <Box className="badge">
-            <Typography className="badge-text">{product.productCategory}</Typography>
+            <Typography className="badge-text">{product.productType}</Typography>
           </Box>
         )}
         {!recentlyVisited && (
@@ -172,7 +172,7 @@ const ProductBigCard = ({
           <div className="meta">
             <div className="meta-item">
               <img src="/img/icons/category-icon.png" alt="Category" />
-              <span>{product.productCategory}</span>
+              <span>{product.productType}</span>
             </div>
             <div className="meta-item">
               <img src="/img/icons/material-icon.png" alt="Material" />

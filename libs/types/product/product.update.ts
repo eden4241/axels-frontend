@@ -1,25 +1,24 @@
 import {
-	ProductCategory,
-	ProductGender,
-	ProductLocation,
+	ProductBrand,
 	ProductMaterial,
+	ProductSize,
 	ProductStatus,
+	ProductType,
 } from '../../enums/product.enum';
 
 export interface ProductUpdate {
 	_id: string;
-	productCategory?: ProductCategory;
+	productType?: ProductType;
 	productStatus?: ProductStatus;
-	productLocation?: ProductLocation;
+	productBrand?: ProductBrand;
 	productOrigin?: string;
 	productColor?: string;
 	productWeightUnit? : number; // 0 - kg, 1 - g, 2 - l
 	productAddress?: string;
 	productMaterial?: ProductMaterial;
-	productGender?: ProductGender;
+	productSize?: ProductSize;
 	productTitle?: string;
 	productPrice?: number;
-	productSize?: number;
 	productImages?: string[];
 	productDesc?: string;
 	productLimited?: boolean;

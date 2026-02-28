@@ -55,10 +55,10 @@ const CategoryProducts = (props: CategoryProductsProps) => {
   /** HANDLERS **/
   const filteredProducts = selectedCategory
     ? categoryProducts.filter((p) => {
-        if (Array.isArray(p.productCategory)) {
-          return p.productCategory.includes(selectedCategory);
+        if (Array.isArray(p.productType)) {
+          return p.productType.includes(selectedCategory);
         }
-        return p.productCategory === selectedCategory;
+        return p.productType === selectedCategory;
       })
     : categoryProducts;
 

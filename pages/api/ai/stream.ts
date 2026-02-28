@@ -112,7 +112,7 @@ async function retrieveSiteContext(
           productTitle
           productPrice
           productMaterial
-          productCategory
+          gory
           productDesc
           productImages
         }
@@ -180,7 +180,7 @@ async function retrieveSiteContext(
       for (const p of products) {
         const url = `${siteOrigin}/product/${p._id}`;
         pieces.push(
-          `- ${p.productTitle} · ${p.productMaterial || 'Material N/A'} · ${p.productCategory || 'N/A'} · ${p.productPrice}
+          `- ${p.productTitle} · ${p.productMaterial || 'Material N/A'} · ${p.gory || 'N/A'} · ${p.productPrice}
 Link: ${url}
 ${(p.productDesc || '').slice(0, 220)}`
         );

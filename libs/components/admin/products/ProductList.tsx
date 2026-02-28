@@ -25,7 +25,7 @@ interface Data {
 	title: string;
 	price: string;
 	store: string;
-	location: string;
+	brand: string;
 	type: string;
 	status: string;
 }
@@ -65,10 +65,10 @@ const headCells: readonly HeadCell[] = [
 		label: 'Seller',
 	},
 	{
-		id: 'location',
+		id: 'brand',
 		numeric: false,
 		disablePadding: false,
-		label: 'LOCATION',
+		label: 'BRAND',
 	},
 	{
 		id: 'type',
@@ -171,8 +171,8 @@ export const ProductPanelList = (props: ProductPanelListType) => {
 										</TableCell>
 										<TableCell align="center">{product.productPrice}</TableCell>
 										<TableCell align="center">{product.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{product.productLocation}</TableCell>
-										<TableCell align="center">{product.productCategory}</TableCell>
+										<TableCell align="center">{product.productBrand}</TableCell>
+										<TableCell align="center">{product.productType}</TableCell>
 										<TableCell align="center">
 											{product.productStatus === ProductStatus.DELETE && (
 												<Button

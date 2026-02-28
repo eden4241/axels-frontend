@@ -44,7 +44,7 @@ const CategoryProductCard = (props: CategoryProductCardProps) => {
 	};
 
 	// Prepare category list
-	const categoryList = Array.isArray(product.productCategory) ? product.productCategory : [product.productCategory];
+	const categoryList = Array.isArray(product.productType) ? product.productType : [product.productType];
 	if (device === 'mobile') {
 		return (
 			<Stack className="category-card-box">
@@ -57,7 +57,7 @@ const CategoryProductCard = (props: CategoryProductCardProps) => {
 						className="title"
 						onClick={(e) => {
 							e.stopPropagation(); // Prevent box click trigger
-							pushCategoryFilter(product.productCategory);
+							pushCategoryFilter(product.productType);
 						}}
 					>
 						<span>{t(categoryList[0])}</span>
@@ -77,7 +77,7 @@ const CategoryProductCard = (props: CategoryProductCardProps) => {
 						className="title"
 						onClick={(e) => {
 							e.stopPropagation(); // Prevent box click trigger
-							pushCategoryFilter(product.productCategory);
+							pushCategoryFilter(product.productType);
 						}}
 					>
 						<span>{t(categoryList[0])}</span>

@@ -52,41 +52,42 @@ export const GET_SELLER = gql`
 	}
 `;
 
-export const GET_MEMBER = gql(`
+export const GET_MEMBER = gql`
 	query GetMember($input: String!) {
-    	getMember(memberId: $input) {
-        _id
-        memberType
-        memberStatus
-        memberAuthType
-        memberPhone
-        memberNick
-        memberFullName
-        memberImage
-        memberAddress
-        memberDesc
-        memberProducts
-        memberArticles
-        memberPoints
-        memberLikes
-        memberViews
-        memberFollowings
-		memberFollowers
-        memberRank
-        memberWarnings
-        memberBlocks
-        deletedAt
-        createdAt
-        updatedAt
-        accessToken
-        meFollowed {
-					followingId
-					followerId
-					myFollowing
-				}
-    }
-}
-`);
+		getMember(memberId: $input) {
+			_id
+			memberType
+			memberStatus
+			memberAuthType
+			memberPhone
+			memberNick
+			memberFullName
+			memberImage
+			memberAddress
+			memberDesc
+			memberProducts
+			memberArticles
+			memberFollowers
+			memberFollowings
+			memberPoints
+			memberLikes
+			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
+			deletedAt
+			createdAt
+			updatedAt
+			accessToken
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+		}
+	}
+`;
 
 /**************************
  *        CART        *
@@ -232,6 +233,11 @@ export const GET_PRODUCTS = gql`
 					createdAt
 					updatedAt
 					accessToken
+				}
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
 				}
 			}
 			metaCounter {

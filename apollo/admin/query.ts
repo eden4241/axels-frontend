@@ -5,7 +5,7 @@ import { gql } from '@apollo/client';
  *************************/
 
 export const GET_ALL_MEMBERS_BY_ADMIN = gql`
-	query GetAllMembersByAdmin($input: MembersInquiry!) {
+	mutation GetAllMembersByAdmin($input: MembersInquiry!) {
 		getAllMembersByAdmin(input: $input) {
 			list {
 				_id
@@ -18,14 +18,17 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
 				memberProducts
-				memberRank
 				memberArticles
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
@@ -47,24 +50,23 @@ export const GET_ALL_PRODUCTS_BY_ADMIN = gql`
 		getAllProductsByAdmin(input: $input) {
 			list {
 				_id
-				productCategory
+				productType
 				productStatus
-				productLocation
-				productAddress
+				productMaterial
+				productBrand
+				productSize
 				productTitle
 				productPrice
-				productSize
-				productMaterial
-				productGender
 				productViews
 				productLikes
+				productComments
+				productRank
 				productImages
 				productDesc
-				productBarter
-				productLimited
 				memberId
 				soldAt
 				deletedAt
+				constructedAt
 				createdAt
 				updatedAt
 				memberData {
@@ -78,13 +80,17 @@ export const GET_ALL_PRODUCTS_BY_ADMIN = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProducts
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -114,6 +120,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 				articleImage
 				articleViews
 				articleLikes
+				articleComments
 				memberId
 				createdAt
 				updatedAt
@@ -128,13 +135,17 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProducts
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -175,13 +186,17 @@ export const GET_COMMENTS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProducts
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -195,42 +210,41 @@ export const GET_COMMENTS = gql`
 	}
 `;
 
-
 /**************************
  *         NOTICE        *
  *************************/
 
 export const GET_NOTICES = gql`
-  query GetNotices($input: NoticeInquiry!) {
-    getNotices(input: $input) {
-      list {
-        _id
-        noticeStatus
-        noticeTitle
-        noticeContent
-        memberId
-        createdAt
-        updatedAt
-      }
-      metaCounter {
-        total
-      }
-    }
-  }
+	query GetNotices($input: NoticeInquiry!) {
+		getNotices(input: $input) {
+			list {
+				_id
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				createdAt
+				updatedAt
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
 `;
 
 /**************************
  *         FAQ        *
  *************************/
 export const GET_FAQS = gql`
-  query GetAllFaqs {
-    getAllFaqs {
-      _id
-      question
-      answer
-      status
-	  category
-      createdAt
-    }
-  }
+	query GetAllFaqs {
+		getAllFaqs {
+			_id
+			question
+			answer
+			status
+			category
+			createdAt
+		}
+	}
 `;

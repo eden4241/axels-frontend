@@ -10,7 +10,7 @@ import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
 import { AllProductsInquiry } from '../../../libs/types/product/product.input';
 import { Product } from '../../../libs/types/product/product';
-import { ProductLocation, ProductStatus } from '../../../libs/enums/product.enum';
+import { ProductBrand, ProductStatus } from '../../../libs/enums/product.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
 import { ProductUpdate } from '../../../libs/types/product/product.update';
 import { ProductPanelList } from '../../../libs/components/admin/products/ProductList';
@@ -125,11 +125,11 @@ const AdminProducts: NextPage = ({ initialInquiry, ...props }: any) => {
 					sort: 'createdAt',
 					search: {
 						...productsInquiry.search,
-						productLocation: [newValue as ProductLocation],
+						productBrand: [newValue as ProductBrand],
 					},
 				});
 			} else {
-				delete productsInquiry?.search?.productLocation;
+				delete productsInquiry?.search?.productBrand;
 				setProductsInquiry({ ...productsInquiry });
 			}
 		} catch (err: any) {
@@ -198,9 +198,9 @@ const AdminProducts: NextPage = ({ initialInquiry, ...props }: any) => {
 									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
 										ALL
 									</MenuItem>
-									{Object.values(ProductLocation).map((location: string) => (
-										<MenuItem value={location} onClick={() => searchTypeHandler(location)} key={location}>
-											{location}
+									{Object.values(ProductBrand).map((brand: string) => (
+										<MenuItem value={brand} onClick={() => searchTypeHandler(brand)} key={brand}>
+											{brand}
 										</MenuItem>
 									))}
 								</Select>

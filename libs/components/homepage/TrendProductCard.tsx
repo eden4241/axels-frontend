@@ -123,9 +123,9 @@ const TrendProductCard = (props: TrendProductCardProps) => {
 							/>
 						)}
 
-						{product?.productCategory && (
+						{product?.productType && (
 							<Box className="badge">
-								<Typography className="badge-text">{t(product.productCategory)}</Typography>
+								<Typography className="badge-text">{t(product.productType)}</Typography>
 							</Box>
 						)}
 

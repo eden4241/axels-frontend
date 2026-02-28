@@ -1,4 +1,4 @@
-export enum ProductCategory {
+export enum ProductType {
 	RING = 'RING',
 	NECKLACE = 'NECKLACE',
 	EARRINGS = 'EARRINGS',
@@ -14,20 +14,13 @@ export enum ProductStatus {
 	DELETE = 'DELETE',
 }
 
-export enum ProductLocation {
-	SEOUL = 'SEOUL',
-	BUSAN = 'BUSAN',
-	INCHEON = 'INCHEON',
-	DAEGU = 'DAEGU',
-	GYEONGJU = 'GYEONGJU',
-	GWANGJU = 'GWANGJU',
-	JEONJU = 'JEONJU',
-	DAEJEON = 'DAEJEON',
-	JEJU = 'JEJU',
-	PARIS = 'PARIS',
-	TOKYO = 'TOKYO',
-	NEWYORK = 'NEWYORK',
-	MILAN = 'MILAN',
+export enum ProductBrand {
+	ROLLIAGE = 'ROLLIAGE',
+	HELEN_JAMES = 'HELEN JAMES',
+	QKE_JEWELRY = 'QKE JEWELRY',
+	ROMAN_PAUL = 'ROMAN PAUL',
+	KS_SILVERWORKS = 'KS SILVERWORKS',
+	LOVE_EXECUTIVE = 'LOVE EXECUTIVE',
 }
 
 export enum ProductMaterial {
@@ -45,8 +38,12 @@ export enum ProductMaterial {
 	CRYSTAL = 'CRYSTAL',
 }
 
-export enum ProductGender {
-	MEN = 'MEN',
-	WOMEN = 'WOMEN',
+export enum ProductSize {
+	S = 'S',
+	M = 'M',
+	L = 'L',
+	XS = 'XS',
+	XL = 'XL',
+	XXL = 'XXL',
   }
   

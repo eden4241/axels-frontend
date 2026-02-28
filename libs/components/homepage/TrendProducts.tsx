@@ -12,7 +12,7 @@ import { Product } from '../../types/product/product';
 import TrendProductCard from './TrendProductCard';
 import { useRouter } from 'next/router';
 import { userVar } from '../../../apollo/store';
-import { sweetMixinErrorAlert } from '../../sweetAlert';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { useTranslation } from 'react-i18next';
 import { i18n } from 'next-i18next';
 import 'swiper/css';
@@ -81,6 +81,7 @@ const TrendProducts = (props: TrendProductsProps) => {
       if (!id) return;
       await likeTargetProduct({ variables: { input: id } });
       await getProductsRefetch({ input: searchFilter });
+      await sweetTopSmallSuccessAlert('success', 800); 
     } catch (err: any) {
       console.error('ERROR on likeProductHandler', err.message);
       sweetMixinErrorAlert(err.message).then();

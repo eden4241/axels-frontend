@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Stack, Typography, Checkbox, FormControlLabel, Slider, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { ProductCategory, ProductGender, ProductLocation, ProductMaterial } from '../../enums/product.enum';
+import { ProductBrand, ProductMaterial, ProductSize, ProductType } from '../../enums/product.enum';
 import { ProductsInquiry } from '../../types/product/product.input';
 import { useRouter } from 'next/router';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
-type FilterKey = 'locationList' | 'categoryList' | 'materialList' | 'genderList' | 'options';
+type FilterKey = 'brandList' | 'typeList' | 'materialList' | 'sizeList' | 'options';
 
 interface FilterType {
 	searchFilter: ProductsInquiry;
@@ -20,10 +20,10 @@ const Filter = (props: FilterType) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 
-	const [locations] = useState<ProductLocation[]>(Object.values(ProductLocation));
-	const [categories] = useState<ProductCategory[]>(Object.values(ProductCategory));
+	const [brands] = useState<ProductBrand[]>(Object.values(ProductBrand));
+	const [types] = useState<ProductType[]>(Object.values(ProductType));
 	const [materials] = useState<ProductMaterial[]>(Object.values(ProductMaterial));
-	const [genders] = useState<ProductGender[]>(Object.values(ProductGender));
+	const [sizes] = useState<ProductSize[]>(Object.values(ProductSize));
 	const [openFilter, setOpenFilter] = useState<string | null>(null);
 	const [searchText, setSearchText] = useState('');
 
@@ -105,20 +105,20 @@ const Filter = (props: FilterType) => {
 	};
 
 	const selectedFilters = [
-		...(searchFilter?.search?.locationList || []).map((f: string) => ({
-			type: 'locationList' as FilterKey,
+		...(searchFilter?.search?.brandList || []).map((f: string) => ({
+			type: 'brandList' as FilterKey,
 			label: f,
 		})),
-		...(searchFilter?.search?.categoryList || []).map((f: string) => ({
-			type: 'categoryList' as FilterKey,
+		...(searchFilter?.search?.typeList || []).map((f: string) => ({
+			type: 'typeList' as FilterKey,
 			label: f,
 		})),
 		...(searchFilter?.search?.materialList || []).map((f: string) => ({
 			type: 'materialList' as FilterKey,
 			label: f,
 		})),
-		...(searchFilter?.search?.genderList || []).map((f: string) => ({
-			type: 'genderList' as FilterKey,
+		...(searchFilter?.search?.sizeList || []).map((f: string) => ({
+			type: 'sizeList' as FilterKey,
 			label: f,
 		})),
 		...(searchFilter?.search?.options || []).map((f: string) => ({
@@ -171,30 +171,30 @@ const Filter = (props: FilterType) => {
 
 	return (
 		<Stack className="filter-main">
-			{/* LOCATION */}
+			{/* Brand */}
 			<div
-				className={`filter-box ${openFilter === 'location' ? 'active' : ''}`}
-				onClick={() => toggleFilter('location')}
+				className={`filter-box ${openFilter === 'brand' ? 'active' : ''}`}
+				onClick={() => toggleFilter('brand')}
 			>
-				<Typography className="title">Location</Typography>
+				<Typography className="title">Brand</Typography>
 				<KeyboardArrowDownRoundedIcon className="dropdown-icon" />
-				{openFilter === 'location' && (
+				{openFilter === 'brand' && (
 					<div className="filter-overlay">
 						<div className="filter-header">
-							<h4>Select Location</h4>
+							<h4>Select Brand</h4>
 							<CloseIcon onClick={() => setOpenFilter(null)} />
 						</div>
 						<div className="filter-content">
-							{locations.map((location) => (
+							{brands.map((brand) => (
 								<FormControlLabel
-									key={location}
+									key={brand}
 									control={
 										<Checkbox
-											checked={searchFilter?.search?.locationList?.includes(location)}
-											onChange={() => updateFilterList('locationList', location)}
+											checked={searchFilter?.search?.brandList?.includes(brand)}
+											onChange={() => updateFilterList('brandList', brand)}
 										/>
 									}
-									label={location}
+									label={brand}
 								/>
 							))}
 						</div>
@@ -216,16 +216,16 @@ const Filter = (props: FilterType) => {
 							<CloseIcon onClick={() => setOpenFilter(null)} />
 						</div>
 						<div className="filter-content">
-							{categories.map((category) => (
+							{types.map((type) => (
 								<FormControlLabel
-									key={category}
+									key={type}
 									control={
 										<Checkbox
-											checked={searchFilter?.search?.categoryList?.includes(category)}
-											onChange={() => updateFilterList('categoryList', category)}
+											checked={searchFilter?.search?.typeList?.includes(type)}
+											onChange={() => updateFilterList('typeList', type)}
 										/>
 									}
-									label={category}
+									label={type}
 								/>
 							))}
 						</div>
@@ -264,27 +264,27 @@ const Filter = (props: FilterType) => {
 				)}
 			</div>
 
-			{/* GENDER */}
-			<div className={`filter-box ${openFilter === 'gender' ? 'active' : ''}`} onClick={() => toggleFilter('gender')}>
-				<Typography className="title">Gender</Typography>
+			{/* SIZE */}
+			<div className={`filter-box ${openFilter === 'size' ? 'active' : ''}`} onClick={() => toggleFilter('size')}>
+				<Typography className="title">Size</Typography>
 				<KeyboardArrowDownRoundedIcon className="dropdown-icon" />
-				{openFilter === 'gender' && (
+				{openFilter === 'size' && (
 					<div className="filter-overlay">
 						<div className="filter-header">
-							<h4>Select Gender</h4>
+							<h4>Select Size</h4>
 							<CloseIcon onClick={() => setOpenFilter(null)} />
 						</div>
 						<div className="filter-content">
-							{genders.map((gender) => (
+							{sizes.map((size) => (
 								<FormControlLabel
-									key={gender}
+									key={size}
 									control={
 										<Checkbox
-											checked={searchFilter?.search?.genderList?.includes(gender)}
-											onChange={() => updateFilterList('genderList', gender)}
+											checked={searchFilter?.search?.sizeList?.includes(size)}
+											onChange={() => updateFilterList('sizeList', size)}
 										/>
 									}
-									label={gender}
+									label={size}
 								/>
 							))}
 						</div>
