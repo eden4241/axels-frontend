@@ -75,7 +75,6 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [updateComment] = useMutation(UPDATE_COMMENT);
 	const [removeComment] = useMutation(REMOVE_COMMENT);
-	const [createNotification] = useMutation(CREATE_NOTIFICATION);
 
 	const [searchFilter, setSearchFilter] = useState<ProductsInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
@@ -249,6 +248,15 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 		}
 	};
 
+	const deleteCommentHandler = async (id: string) => {
+		try {
+			await removeComment({ variables: { input: id } });
+			await getCommentsRefetch({ input: commentInquiry });
+		} catch (err: any) {
+			await sweetErrorHandling(err);
+		}
+	};
+
 	const toFullImageUrl = (img: string) => (img?.startsWith('http') ? img : `${REACT_APP_API_URL}/${img}`);
 
 	const handleAdd = (
@@ -296,7 +304,7 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 
 	/** HANDLERS **/
 	const pushDetailHandler = async (storeId: string) => {
-		router.push({ pathname: '/store/detail', query: { id: storeId } });
+		router.push({ pathname: '/seller/detail', query: { id: storeId } });
 	};
 
 	const handleAddClick = (e: React.MouseEvent) => {
@@ -412,26 +420,25 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 									{product?.productOrigin || 'N/A'}{' '}
 								</div>
 								<div className="info-item">
-									<img src="/img/icons/gender.png" alt="" />
 									{product?.productSize || 'N/A'}{' '}
 								</div>
-								<div className="info-item-options">
+								{/* <div className="info-item-options">
 									<img src="/img/icons/options.png" alt="" />
 									<span className={!product?.productLimited ? 'disabled' : ''}>Limited Edition</span>
 									<span> / </span>
 									<span className={!product?.productBarter ? 'disabled' : ''}>Barter</span>
-								</div>
+								</div> */}
 							</Box>
 
 							<Box className="detail-testimonial">
 								<span>
-									Hurry Up! Only <strong>{product?.productStock || 20} items</strong> left in Stock!
+									Hurry Up! Only <strong>{/*product?.productStock || 20*/ 20} items</strong> left in Stock!
 								</span>
 							</Box>
 							<Divider />
 							<Box className="detail-buttons">
 								<Box className="calculate">
-									<div onClick={() => setQuantity((prev) => Math.min(prev + 1, product?.productStock || 20))}>+</div>
+									<div onClick={() => setQuantity((prev) => Math.min(prev + 1, /*product?.productStock ||*/ 20))}>+</div>
 									<span>{quantity}</span>
 									<div onClick={() => setQuantity((prev) => Math.max(prev - 1, 0))}>-</div>
 								</Box>
@@ -532,7 +539,7 @@ const ProductDetail: NextPage = ({ initialComment, initialInput, ...props }: any
 											}}
 											onDelete={async (id) => {
 												await removeComment({
-													variables: { commentId: id },
+													variables: { input: id },
 												});
 												await getCommentsRefetch({ input: commentInquiry });
 											}}

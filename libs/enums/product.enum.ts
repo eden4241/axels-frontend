@@ -16,7 +16,7 @@ export enum ProductStatus {
 
 export enum ProductBrand {
 	ROLLIAGE = 'ROLLIAGE',
-	HELEN_JAMES = 'HELEN JAMES',
+	HELEN = 'HELEN',
 	QKE_JEWELRY = 'QKE JEWELRY',
 	ROMAN_PAUL = 'ROMAN PAUL',
 	KS_SILVERWORKS = 'KS SILVERWORKS',
@@ -26,7 +26,7 @@ export enum ProductBrand {
 export enum ProductMaterial {
 	GOLD = 'GOLD',
 	SILVER = 'SILVER',
-	PLATINIUM = 'PLATINIUM',
+	PLATINUM = 'PLATINUM',
 	WHITE_GOLD = 'WHITE_GOLD',
 	ROSE_GOLD = 'ROSE_GOLD',
 	STERLING_SILVER = 'STERLING_SILVER',

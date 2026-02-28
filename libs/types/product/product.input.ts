@@ -18,7 +18,7 @@ export interface ProductInput {
 	productSize: ProductSize;
 	productTitle: string;
 	productPrice: number;
-	productStock: number;
+	// productStock: number;
 	productWeightUnit: number; // 0 - kg, 1 - g, 2 - l
 	productComments: number;
 	productRank: number;

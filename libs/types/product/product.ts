@@ -29,7 +29,7 @@ export interface Product {
 	productSize: ProductSize;
 	productTitle: string;
 	productPrice: number;
-	productStock: number;
+	// productStock: number;
 	productComments: number;
 	productRank: number;
 	productViews: number;

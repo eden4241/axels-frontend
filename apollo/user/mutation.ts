@@ -234,10 +234,6 @@ export const UPDATE_PRODUCT = gql`
 			updatedAt
 		}
 	}
-
-	query CheckAuth {
-		checkAuth
-	}
 `;
 
 export const LIKE_TARGET_PRODUCT = gql`

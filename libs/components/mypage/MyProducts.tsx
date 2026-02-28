@@ -10,7 +10,7 @@ import { ProductStatus } from '../../enums/product.enum';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import { UPDATE_PRODUCT } from '../../../apollo/user/mutation';
-import { GET_STORE_PRODUCTS } from '../../../apollo/user/query';
+import { GET_SELLER_PRODUCTS } from '../../../apollo/user/query';
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { ProductCard } from './ProductCard';
 
@@ -30,7 +30,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 		data: getStoreProductsData,
 		error: getStoreProductsError,
 		refetch: getStoreProductsRefetch,
-	} = useQuery(GET_STORE_PRODUCTS, {
+	} = useQuery(GET_SELLER_PRODUCTS, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
@@ -74,7 +74,7 @@ const MyProducts: NextPage = ({ initialInput, ...props }: any) => {
 			await sweetErrorHandling(err);
 		}
 	};
-	if (user?.memberType !== 'STORE') {
+	if (user?.memberType !== 'SELLER') {
 		router.back();
 	}
 
